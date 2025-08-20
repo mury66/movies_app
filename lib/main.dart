@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:movies_app/screens/on_boarding_screen.dart';
+import 'package:movies_app/screens/home/home_screen.dart';
+import 'package:movies_app/screens/introduction/intro_screen.dart';
+import 'package:movies_app/screens/introduction/on_boarding_screen.dart';
+import 'package:movies_app/screens/introduction/splash_screen.dart';
 
+import 'core/cashe_helper/cashe_helper.dart';
 import 'core/themes/app_theme.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferencesHelper.init();
   runApp(const MyApp());
 }
 
@@ -23,9 +29,12 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         routes: {
+          SplashScreen.routeName: (context) => const SplashScreen(),
           onBoardingScreen.routeName: (context) =>  onBoardingScreen(),
+          IntroScreen.routeName: (context) => IntroScreen(),
+          HomeScreen.routeName: (context) => const HomeScreen(),
         },
-        initialRoute: onBoardingScreen.routeName,
+        initialRoute: SplashScreen.routeName,
       ),
     );
   }

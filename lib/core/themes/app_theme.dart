@@ -33,7 +33,7 @@ class AppTheme {
         displaySmall: font.bodySmallRegular(context, colors.textColor),
         headlineMedium: font.bodyXLargeBold(context, colors.textColor),
         headlineSmall: font.bodyLargeRegular(context, colors.textColor),
-        titleLarge: font.h6(context, colors.textColor),
+        titleLarge: font.h1(context, colors.textColor),
         bodyLarge: font.bodyXLargeBold(context, colors.textColor),
         bodyMedium: font.bodyXLargeMedium(context, colors.textColor),
         titleMedium: font.h4(context, colors.textColor3),
@@ -50,7 +50,7 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15.0.r),
           ),
-          padding: EdgeInsets.symmetric(horizontal: 16.0.h, vertical: 16.0.w),
+          padding: EdgeInsets.symmetric(vertical: 16.0.w),
         ),
       ),
       appBarTheme: AppBarTheme(
