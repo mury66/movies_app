@@ -68,7 +68,7 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      Colors.white.withOpacity(0.8),
+                      Colors.grey.withOpacity(0.8),
                       Colors.transparent,
                     ],
                     begin: Alignment.bottomCenter,
@@ -78,7 +78,8 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
               ),
               Align(
                 alignment: Alignment.bottomCenter,
-                child: Container(
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
                   padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
                   decoration: BoxDecoration(
                     color: Theme.of(context).scaffoldBackgroundColor,
@@ -92,13 +93,17 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                         style: Theme.of(context).textTheme.headlineMedium,
                       ),
                       SizedBox(height: 24.h),
-                      Text(
-                        page.description,
-                        style: Theme.of(context).textTheme.headlineSmall,
-                        textAlign: TextAlign.center,
+                      if(page.description != null)
+                      Column(
+                        children: [
+                          Text(
+                            page.description == null?"": page.description!,
+                            style: Theme.of(context).textTheme.headlineSmall,
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: 24.h),
+                        ],
                       ),
-                      SizedBox(height: 24.h),
-
                       if (!isLastPage)
                         SizedBox(
                           width: double.infinity,

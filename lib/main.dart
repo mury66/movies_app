@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movies_app/screens/on_boarding_screen.dart';
 
-import 'models/core/themes/app_theme.dart';
+import 'core/themes/app_theme.dart';
 
 void main() {
   runApp(const MyApp());

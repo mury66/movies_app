@@ -1,10 +1,10 @@
 class OnBoardingItem{
     String title;
-    String description;
+    String? description;
     String image;
     OnBoardingItem({
       required this.title,
-      required this.description,
+      this.description,
       required this.image,
     });
 
@@ -32,7 +32,6 @@ class OnBoardingItem{
         ),
         OnBoardingItem(
           title: "Start Watching Now",
-          description: "Enjoy thousands of films and series right at your fingertips.",
           image: "assets/images/onBoarding5.png",
         ),
       ];

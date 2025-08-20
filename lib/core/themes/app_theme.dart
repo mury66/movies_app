@@ -50,7 +50,7 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15.0.r),
           ),
-          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+          padding: EdgeInsets.symmetric(horizontal: 16.0.h, vertical: 16.0.w),
         ),
       ),
       appBarTheme: AppBarTheme(
