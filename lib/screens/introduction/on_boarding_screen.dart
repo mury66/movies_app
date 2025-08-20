@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:movies_app/core/cashe_helper/cashe_helper.dart';
 
 import '../../models/on_boarding_model.dart';
 
@@ -36,15 +37,13 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
   }
 
   void _finish() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text("Finished Onboarding!")),
-    );
+    SharedPreferencesHelper.setOnBoardingSeen(true);
+    print({SharedPreferencesHelper.getOnBoardingSeen()});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: PageView.builder(
         controller: _controller,
         onPageChanged: (index) {

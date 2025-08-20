@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:movies_app/screens/home/home_screen.dart';
 import 'package:movies_app/screens/introduction/on_boarding_screen.dart';
 
+import '../../core/cashe_helper/cashe_helper.dart';
 import '../../models/on_boarding_model.dart';
 
 class IntroScreen extends StatelessWidget {
@@ -12,7 +14,6 @@ class IntroScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     OnBoardingItem page = OnBoardingItem.generateIntroItem();
     return Scaffold(
-        backgroundColor: Colors.black,
       body: Stack(
         fit: StackFit.expand,
         children: [
@@ -65,7 +66,7 @@ class IntroScreen extends StatelessWidget {
                         ),
                         onPressed: ()
                         {
-                          Navigator.pushNamed(context, onBoardingScreen.routeName);
+                          Navigator.pushNamed(context, SharedPreferencesHelper.getOnBoardingSeen() ? HomeScreen.routeName : onBoardingScreen.routeName);
                         },
                         child: Text("Explore Now"),
                       ),),
