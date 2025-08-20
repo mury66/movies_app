@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../models/on_boarding_model.dart';
+import '../../models/on_boarding_model.dart';
 
 class onBoardingScreen extends StatefulWidget {
   static const String routeName = '/onBoardingScreen';
@@ -44,7 +44,7 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: PageView.builder(
         controller: _controller,
         onPageChanged: (index) {

@@ -23,7 +23,7 @@ class FontStyles implements MainStyles {
 
   @override
   TextStyle h1(BuildContext context, Color color) =>
-      _getFont(color, 26.sp, FontWeight.bold);
+      _getFont(color, 36.sp, FontWeight.w500);
 
   @override
   TextStyle h2(BuildContext context, Color color) =>

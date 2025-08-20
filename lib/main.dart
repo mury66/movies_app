@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:movies_app/screens/on_boarding_screen.dart';
+import 'package:movies_app/screens/introduction/intro_screen.dart';
+import 'package:movies_app/screens/introduction/on_boarding_screen.dart';
 
 import 'core/themes/app_theme.dart';
 
@@ -24,8 +25,9 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         routes: {
           onBoardingScreen.routeName: (context) =>  onBoardingScreen(),
+          IntroScreen.routeName: (context) => IntroScreen(),
         },
-        initialRoute: onBoardingScreen.routeName,
+        initialRoute: IntroScreen.routeName,
       ),
     );
   }
