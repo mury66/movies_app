@@ -8,7 +8,7 @@ import 'package:movies_app/screens/introduction/intro_screen.dart';
 import 'package:movies_app/screens/introduction/on_boarding_screen.dart';
 import 'package:movies_app/screens/introduction/splash_screen.dart';
 
-import 'core/cashe_helper/cashe_helper.dart';
+import 'core/cache_helper/cache_helper.dart';
 import 'core/themes/app_theme.dart';
 
 void main() {
@@ -38,10 +38,9 @@ class MyApp extends StatelessWidget {
           HomeScreen.routeName: (context) => const HomeScreen(),
           LoginScreen.routeName: (context) => const LoginScreen(),
           RegisterScreen.routeName: (context) => const RegisterScreen(),
-          ForgetPasswordScreen.routeName: (context) =>
-              const ForgetPasswordScreen(),
+          ForgetPasswordScreen.routeName: (context) => const ForgetPasswordScreen(),
         },
-        initialRoute: LoginScreen.routeName,
+        initialRoute: SplashScreen.routeName,
       ),
     );
   }

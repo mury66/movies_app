@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movies_app/screens/home/home_screen.dart';
 import 'package:movies_app/screens/introduction/on_boarding_screen.dart';
 
-import '../../core/cashe_helper/cashe_helper.dart';
+import '../../core/cache_helper/cache_helper.dart';
 import '../../models/on_boarding_model.dart';
 
 class IntroScreen extends StatelessWidget {
@@ -66,7 +66,7 @@ class IntroScreen extends StatelessWidget {
                         ),
                         onPressed: ()
                         {
-                          Navigator.pushNamed(context, SharedPreferencesHelper.getOnBoardingSeen() ? HomeScreen.routeName : onBoardingScreen.routeName);
+                          Navigator.pushNamed(context,onBoardingScreen.routeName);
                         },
                         child: Text("Explore Now"),
                       ),),

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'main_colors.dart';
 
-class LightColors implements MainColors {
+class AppColors implements MainColors {
   @override
   Color get backgroundColor => const Color(0xff121312);
 

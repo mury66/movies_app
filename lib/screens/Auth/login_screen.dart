@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movies_app/screens/Auth/forget_password_screen.dart';
 import 'package:movies_app/screens/Auth/register_screen.dart';
@@ -29,51 +30,31 @@ class _LoginScreenState extends State<LoginScreen> {
               Image.asset(
                 "assets/images/logo_login.png",
                 fit: BoxFit.cover,
-                width: 121,
-                height: 118,
+                width: 121.w,
+                height: 118.h,
               ),
-              SizedBox(height: 50),
+              SizedBox(height: 50.h),
               TextFormField(
                 decoration: InputDecoration(
                   fillColor: Theme.of(context).colorScheme.secondary,
                   filled: true,
                   hintText: "Email",
-                  hintStyle: Theme.of(context).textTheme.titleMedium!.copyWith(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 18,
-                  ),
-                  prefixIcon: Icon(Icons.email, color: Colors.white, size: 30),
-
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.secondary,
-                    ),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
+                  prefixIcon: Icon(Icons.email, size: 30),
                 ),
               ),
-              SizedBox(height: 25),
+              SizedBox(height: 25.h),
               TextFormField(
                 obscureText: !isRePasswordVisible,
-
                 decoration: InputDecoration(
                   fillColor: Theme.of(context).colorScheme.secondary,
                   filled: true,
                   hintText: "Password",
-                  hintStyle: Theme.of(context).textTheme.titleMedium!.copyWith(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 18,
-                  ),
                   prefixIcon: Icon(Icons.lock, color: Colors.white, size: 30),
                   suffixIcon: IconButton(
                     icon: Icon(
                       isRePasswordVisible
                           ? Icons.visibility_off
                           : Icons.visibility,
-                      color: Colors.white,
                     ),
                     onPressed: () {
                       setState(() {
@@ -81,18 +62,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       });
                     },
                   ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.secondary,
-                    ),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
                 ),
               ),
-              SizedBox(height: 25),
+              SizedBox(height: 25.h),
               Container(
                 alignment: Alignment.centerRight,
                 child: GestureDetector(
@@ -104,42 +76,26 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   child: Text(
                     "Forget Password ?",
-                    style: GoogleFonts.roboto(
-                      decorationColor: Theme.of(context).colorScheme.primary,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
+                    style: Theme.of(context).textTheme.displayMedium!.copyWith(
                       color: Theme.of(context).colorScheme.primary,
-                    ),
+                    )
                   ),
                 ),
               ),
-              SizedBox(height: 25),
+              SizedBox(height: 25.h),
               ElevatedButton(
                 onPressed: () {},
                 child: Text(
                   "Login",
-                  style: GoogleFonts.roboto(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).colorScheme.primary,
-                  foregroundColor: Theme.of(context).colorScheme.secondary,
-                  minimumSize: const Size(double.infinity, 60),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
                 ),
               ),
-              SizedBox(height: 25),
+              SizedBox(height: 25.h),
               Center(
                 child: Text.rich(
                   TextSpan(
                     text: "Don't Have Account ? ",
                     style: GoogleFonts.roboto(
-                      textStyle: Theme.of(context).textTheme.bodyMedium!
-                          .copyWith(fontWeight: FontWeight.w400, fontSize: 16),
+                      textStyle: Theme.of(context).textTheme.displayMedium
                     ),
                     children: [
                       TextSpan(
@@ -151,43 +107,39 @@ class _LoginScreenState extends State<LoginScreen> {
                             );
                           },
                         text: "Create One",
-                        style: GoogleFonts.inter(
-                          decorationColor: Theme.of(
-                            context,
-                          ).colorScheme.primary,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w900,
+                        style: Theme.of(context).textTheme.displayMedium!.copyWith(
                           color: Theme.of(context).colorScheme.primary,
-                        ),
+                          fontWeight: FontWeight.bold
+                        )
                       ),
                     ],
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 20.h),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                padding: EdgeInsets.symmetric(horizontal: 40.0.w),
                 child: Row(
                   children: [
                     Expanded(
                       child: Divider(
                         color: Theme.of(context).colorScheme.primary,
-                        endIndent: 20,
+                        endIndent: 20.w,
                       ),
                     ),
                     Center(
                       child: Text(
                         "OR",
-                        style: GoogleFonts.roboto(
+                        style: Theme.of(context).textTheme.displayMedium!.copyWith(
                           color: Theme.of(context).colorScheme.primary,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                        ),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15.sp,
+                        )
                       ),
                     ),
                     Expanded(
                       child: Divider(
-                        indent: 20,
+                        indent: 20.w,
                         color: Theme.of(context).colorScheme.primary,
                       ),
                     ),
@@ -202,52 +154,44 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     Image.asset(
                       "assets/images/icon _google_.png",
-                      width: 30,
-                      height: 30,
+                      width: 30.w,
+                      height: 30.h,
                     ),
-                    SizedBox(width: 10),
+                    SizedBox(width: 10.w),
                     Text("Login with Google"),
                   ],
                 ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).colorScheme.primary,
-                  foregroundColor: Theme.of(context).colorScheme.secondary,
-                  minimumSize: const Size(double.infinity, 60),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                ),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 20.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
+                      borderRadius: BorderRadius.circular(25.r),
                       border: Border.all(
                         color: Theme.of(context).colorScheme.primary,
-                        width: 3,
+                        width: 3.w,
                         style: BorderStyle.solid,
                       ),
                     ),
                     child: Image.asset(
                       "assets/images/LR.png",
-                      width: 30,
-                      height: 30,
+                      width: 30.w,
+                      height: 30.h,
                       fit: BoxFit.cover,
                     ),
                   ),
-                  const SizedBox(width: 10),
+                  SizedBox(width: 10.w),
                   Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
-                      border: Border.all(width: 3, style: BorderStyle.solid),
+                      borderRadius: BorderRadius.circular(25.r),
+                      border: Border.all(width: 3.w, style: BorderStyle.solid),
                     ),
                     child: Image.asset(
                       "assets/images/EG.png",
-                      width: 30,
-                      height: 30,
+                      width: 30.w,
+                      height: 30.h,
                       fit: BoxFit.cover,
                     ),
                   ),

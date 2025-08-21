@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movies_app/models/userdata.dart';
 import 'package:movies_app/screens/Auth/login_screen.dart';
@@ -39,19 +40,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
       appBar: AppBar(
         title: Text(
           "Register",
-          style: GoogleFonts.roboto(
-            textStyle: Theme.of(context).textTheme.bodyMedium,
-            color: Theme.of(context).colorScheme.primary,
-          ),
         ),
-        centerTitle: true,
-        elevation: 0,
-        scrolledUnderElevation: 0,
         leading: Icon(
           Icons.arrow_back,
           color: Theme.of(context).colorScheme.primary,
         ),
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -91,7 +84,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       },
                     ),
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24.h),
                   TextFormField(
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -101,32 +94,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     },
                     controller: nameController,
                     decoration: InputDecoration(
-                      fillColor: Theme.of(context).colorScheme.secondary,
-                      filled: true,
                       hintText: "Name",
-                      hintStyle: GoogleFonts.roboto(
-                        textStyle: Theme.of(context).textTheme.titleMedium,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                      ),
                       prefixIcon: Icon(
                         Icons.person,
-                        color: Colors.white,
-                        size: 30,
-                      ),
-
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Theme.of(context).colorScheme.secondary,
-                        ),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
+                        size: 30.sp,
                       ),
                     ),
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24.h),
                   TextFormField(
                     controller: emailController,
                     validator: (value) {
@@ -143,33 +118,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       return null;
                     },
                     decoration: InputDecoration(
-                      fillColor: Theme.of(context).colorScheme.secondary,
-                      filled: true,
                       hintText: "Email",
-                      hintStyle: GoogleFonts.roboto(
-                        textStyle: Theme.of(context).textTheme.titleMedium,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                      ),
                       prefixIcon: Icon(
                         Icons.email,
-                        color: Colors.white,
-                        size: 30,
-                      ),
-
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Theme.of(context).colorScheme.secondary,
-                        ),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
+                        size: 30.sp,
                       ),
                     ),
                   ),
-
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24.h),
                   TextFormField(
                     obscureText: !isPasswordVisible,
                     controller: passwordController,
@@ -183,25 +139,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       return null;
                     },
                     decoration: InputDecoration(
-                      fillColor: Theme.of(context).colorScheme.secondary,
-                      filled: true,
                       hintText: "Password",
-                      hintStyle: GoogleFonts.roboto(
-                        textStyle: Theme.of(context).textTheme.titleMedium,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                      ),
                       prefixIcon: Icon(
                         Icons.lock,
-                        color: Colors.white,
-                        size: 30,
+                        size: 30.sp,
                       ),
                       suffixIcon: IconButton(
                         icon: Icon(
                           isPasswordVisible
                               ? Icons.visibility_off
                               : Icons.visibility,
-                          color: Colors.white,
+                          size: 30.sp,
                         ),
                         onPressed: () {
                           setState(() {
@@ -209,18 +157,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           });
                         },
                       ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Theme.of(context).colorScheme.secondary,
-                        ),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
                     ),
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24.h),
                   TextFormField(
                     obscureText: !isRePasswordVisible,
                     validator: (value) {
@@ -233,25 +172,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       return null;
                     },
                     decoration: InputDecoration(
-                      fillColor: Theme.of(context).colorScheme.secondary,
-                      filled: true,
                       hintText: "Confirm Password",
-                      hintStyle: GoogleFonts.roboto(
-                        textStyle: Theme.of(context).textTheme.titleMedium,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                      ),
                       prefixIcon: Icon(
                         Icons.lock,
-                        color: Colors.white,
-                        size: 30,
+                        size: 30.sp,
                       ),
                       suffixIcon: IconButton(
                         icon: Icon(
                           isRePasswordVisible
                               ? Icons.visibility_off
                               : Icons.visibility,
-                          color: Colors.white,
+                          size: 30.sp,
                         ),
                         onPressed: () {
                           setState(() {
@@ -259,18 +190,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           });
                         },
                       ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Theme.of(context).colorScheme.secondary,
-                        ),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
                     ),
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24.h),
                   TextFormField(
                     keyboardType: TextInputType.phone,
                     controller: phoneController,
@@ -284,32 +206,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       return null;
                     },
                     decoration: InputDecoration(
-                      fillColor: Theme.of(context).colorScheme.secondary,
-                      filled: true,
                       hintText: "Phone Number",
-                      hintStyle: GoogleFonts.roboto(
-                        textStyle: Theme.of(context).textTheme.titleMedium,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                      ),
                       prefixIcon: Icon(
                         Icons.call,
-                        color: Colors.white,
-                        size: 30,
-                      ),
-
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Theme.of(context).colorScheme.secondary,
-                        ),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
+                        size: 30.sp,
                       ),
                     ),
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24.h),
                   ElevatedButton(
                     onPressed: () {
                       if (formkey.currentState!.validate()) {
@@ -323,33 +227,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     },
                     child: Text(
                       "Create Account",
-                      style: GoogleFonts.roboto(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w400,
-                        color: Theme.of(context).colorScheme.secondary,
-                      ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).primaryColor,
-                      foregroundColor: Colors.white,
-                      minimumSize: const Size(double.infinity, 60),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
                     ),
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24.h),
                   Center(
                     child: Text.rich(
                       TextSpan(
                         text: "Already Have Account ? ",
-                        style: GoogleFonts.roboto(
-                          textStyle: Theme.of(context).textTheme.bodyMedium!
-                              .copyWith(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 16,
-                              ),
-                        ),
+                        style: Theme.of(context).textTheme.displayMedium,
                         children: [
                           TextSpan(
                             recognizer: TapGestureRecognizer()
@@ -358,18 +243,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 LoginScreen.routeName,
                               ),
                             text: "Login",
-                            style: GoogleFonts.inter(
-                              decorationColor: Theme.of(context).primaryColor,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w900,
-                              color: Theme.of(context).primaryColor,
+                            style: Theme.of(context).textTheme.displayMedium!.copyWith(
+                              color: Theme.of(context).colorScheme.primary,
+                              fontWeight: FontWeight.bold
                             ),
                           ),
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 20.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

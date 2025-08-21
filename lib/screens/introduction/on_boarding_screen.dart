@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:movies_app/core/cashe_helper/cashe_helper.dart';
+import 'package:movies_app/core/cache_helper/cache_helper.dart';
 
 import '../../models/on_boarding_model.dart';
+import '../Auth/login_screen.dart';
 
 class onBoardingScreen extends StatefulWidget {
   static const String routeName = '/onBoardingScreen';
@@ -38,7 +39,7 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
 
   void _finish() {
     SharedPreferencesHelper.setOnBoardingSeen(true);
-    print({SharedPreferencesHelper.getOnBoardingSeen()});
+    Navigator.pushReplacementNamed(context, LoginScreen.routeName);
   }
 
   @override

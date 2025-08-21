@@ -12,17 +12,7 @@ class ForgetPasswordScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           "Forget Password",
-          style: GoogleFonts.roboto(
-            textStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-              fontWeight: FontWeight.w400,
-              fontSize: 20,
-            ),
-            color: Theme.of(context).colorScheme.primary,
-          ),
         ),
-        centerTitle: true,
-        elevation: 0,
-        scrolledUnderElevation: 0,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
           icon: Icon(
@@ -31,7 +21,6 @@ class ForgetPasswordScreen extends StatelessWidget {
             color: Theme.of(context).colorScheme.primary,
           ),
         ),
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
