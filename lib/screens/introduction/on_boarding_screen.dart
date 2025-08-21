@@ -16,7 +16,7 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
   final PageController _controller = PageController();
 
   int _currentPage = 0;
-    final List<OnBoardingItem> pages = OnBoardingItem.generateOnBoardingItems();
+  final List<OnBoardingItem> pages = OnBoardingItem.generateOnBoardingItems();
 
   void _nextPage() {
     if (_currentPage < pages.length - 1) {
@@ -59,17 +59,11 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
           return Stack(
             fit: StackFit.expand,
             children: [
-              Image.asset(
-                page.image,
-                fit: BoxFit.cover,
-              ),
+              Image.asset(page.image, fit: BoxFit.cover),
               Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [
-                      Colors.grey.withOpacity(0.8),
-                      Colors.transparent,
-                    ],
+                    colors: [Colors.grey.withOpacity(0.8), Colors.transparent],
                     begin: Alignment.bottomCenter,
                     end: Alignment.topCenter,
                   ),
@@ -79,10 +73,15 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                 alignment: Alignment.bottomCenter,
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 300),
-                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16.w,
+                    vertical: 16.h,
+                  ),
                   decoration: BoxDecoration(
                     color: Theme.of(context).scaffoldBackgroundColor,
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(20),
+                    ),
                   ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -92,17 +91,17 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                         style: Theme.of(context).textTheme.headlineMedium,
                       ),
                       SizedBox(height: 24.h),
-                      if(page.description != null)
-                      Column(
-                        children: [
-                          Text(
-                            page.description == null?"": page.description!,
-                            style: Theme.of(context).textTheme.headlineSmall,
-                            textAlign: TextAlign.center,
-                          ),
-                          SizedBox(height: 24.h),
-                        ],
-                      ),
+                      if (page.description != null)
+                        Column(
+                          children: [
+                            Text(
+                              page.description == null ? "" : page.description!,
+                              style: Theme.of(context).textTheme.headlineSmall,
+                              textAlign: TextAlign.center,
+                            ),
+                            SizedBox(height: 24.h),
+                          ],
+                        ),
                       if (!isLastPage)
                         SizedBox(
                           width: double.infinity,
@@ -114,7 +113,8 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                             ),
                             onPressed: _nextPage,
                             child: Text("Next"),
-                        ),),
+                          ),
+                        ),
                       if (isLastPage)
                         SizedBox(
                           width: double.infinity,
@@ -123,20 +123,23 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                             child: Text("Finish"),
                           ),
                         ),
-                      SizedBox(height:16.h),
+                      SizedBox(height: 16.h),
                       if (_currentPage > 0)
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                              foregroundColor: Theme.of(context).colorScheme.primary,
+                              backgroundColor: Theme.of(
+                                context,
+                              ).scaffoldBackgroundColor,
+                              foregroundColor: Theme.of(
+                                context,
+                              ).colorScheme.primary,
                             ),
                             onPressed: _prevPage,
                             child: Text("Back"),
                           ),
                         ),
-
                     ],
                   ),
                 ),

@@ -1,9 +1,6 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:movies_app/core/colors/app_colors.dart';
-import 'package:movies_app/core/colors/main_colors.dart';
 import 'package:movies_app/screens/Auth/forget_password_screen.dart';
 import 'package:movies_app/screens/Auth/register_screen.dart';
 
