@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:movies_app/screens/Auth/forget_password_screen.dart';
+import 'package:movies_app/screens/Auth/login_screen.dart';
+import 'package:movies_app/screens/Auth/register_screen.dart';
 import 'package:movies_app/screens/home/home_screen.dart';
 import 'package:movies_app/screens/introduction/intro_screen.dart';
 import 'package:movies_app/screens/introduction/on_boarding_screen.dart';
@@ -21,20 +24,24 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(430,932),
+      designSize: const Size(430, 932),
       minTextAdapt: true,
       splitScreenMode: true,
-      builder: (context , child) => MaterialApp(
+      builder: (context, child) => MaterialApp(
         theme: AppTheme.getTheme(context: context),
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         routes: {
           SplashScreen.routeName: (context) => const SplashScreen(),
-          onBoardingScreen.routeName: (context) =>  onBoardingScreen(),
+          onBoardingScreen.routeName: (context) => onBoardingScreen(),
           IntroScreen.routeName: (context) => IntroScreen(),
           HomeScreen.routeName: (context) => const HomeScreen(),
+          LoginScreen.routeName: (context) => const LoginScreen(),
+          RegisterScreen.routeName: (context) => const RegisterScreen(),
+          ForgetPasswordScreen.routeName: (context) =>
+              const ForgetPasswordScreen(),
         },
-        initialRoute: SplashScreen.routeName,
+        initialRoute: LoginScreen.routeName,
       ),
     );
   }

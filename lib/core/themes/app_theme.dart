@@ -6,9 +6,7 @@ import '../styles/font_styles.dart';
 import '../styles/main_styles.dart';
 
 class AppTheme {
-  static ThemeData getTheme({
-    required BuildContext context,
-  }) {
+  static ThemeData getTheme({required BuildContext context}) {
     final MainColors colors = LightColors();
     final MainStyles font = FontStyles();
 
@@ -43,10 +41,7 @@ class AppTheme {
           textStyle: Theme.of(context).textTheme.titleMedium,
           backgroundColor: colors.primary1,
           foregroundColor: colors.textColor2,
-          side: BorderSide(
-            color: colors.primary1,
-            width: 2.0,
-          ),
+          side: BorderSide(color: colors.primary1, width: 2.0),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15.0.r),
           ),
@@ -60,7 +55,6 @@ class AppTheme {
         iconTheme: IconThemeData(color: colors.secondaryBackgroundColor),
         titleTextStyle: font.h4(context, colors.textColor),
       ),
-
     );
   }
 }

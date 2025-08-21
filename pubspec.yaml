@@ -12,6 +12,8 @@ dependencies:
   flutter_screenutil: ^5.9.3
   google_fonts: ^6.3.0
   shared_preferences: ^2.5.3
+  easy_localization: ^3.0.8
+  carousel_slider: ^4.2.1
 
 dev_dependencies:
   flutter_test:

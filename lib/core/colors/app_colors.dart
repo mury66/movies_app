@@ -1,9 +1,10 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
+
 import 'main_colors.dart';
 
 class LightColors implements MainColors {
-
   @override
   Color get backgroundColor => const Color(0xff121312);
 
@@ -14,11 +15,10 @@ class LightColors implements MainColors {
   Color get textColor => const Color(0xffFFFFFF);
 
   @override
-   Color get textColor2 => const Color(0xff121312);
+  Color get textColor2 => const Color(0xff121312);
 
   @override
   Color get textColor3 => const Color(0xffFFFFFF);
-
 
   @override
   Color get primary1 => const Color(0xffF6BD00); // Lightest
@@ -39,7 +39,7 @@ class LightColors implements MainColors {
   Color get primary6 => const Color(0xFF2A3BFF); // Darker
 
   @override
-  Color get secondary => const Color(0xff5669FF); // Teal
+  Color get secondary => const Color(0xff282A28); // Teal
 
   @override
   Color get warning => const Color(0xFFFFA000); // Amber
