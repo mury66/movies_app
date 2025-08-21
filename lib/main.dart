@@ -35,12 +35,12 @@ class MyApp extends StatelessWidget {
           SplashScreen.routeName: (context) => const SplashScreen(),
           onBoardingScreen.routeName: (context) => onBoardingScreen(),
           IntroScreen.routeName: (context) => IntroScreen(),
-          HomeScreen.routeName: (context) => const HomeScreen(),
+          HomeScreen.routeName: (context) => HomeScreen(),
           LoginScreen.routeName: (context) => const LoginScreen(),
           RegisterScreen.routeName: (context) => const RegisterScreen(),
           ForgetPasswordScreen.routeName: (context) => const ForgetPasswordScreen(),
         },
-        initialRoute: SplashScreen.routeName,
+        initialRoute: HomeScreen.routeName,
       ),
     );
   }
