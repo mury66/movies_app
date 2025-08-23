@@ -1,18 +1,68 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:movies_app/firebase/firebasemanger.dart';
 
-class ForgetPasswordScreen extends StatelessWidget {
+class ForgetPasswordScreen extends StatefulWidget {
   static const String routeName = '/ForgetPassword';
 
   const ForgetPasswordScreen({super.key});
 
   @override
+  State<ForgetPasswordScreen> createState() => _ForgetPasswordScreenState();
+}
+
+class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
+  final TextEditingController _emailController = TextEditingController();
+
+  Future<void> _resetPassword() async {
+    final email = _emailController.text.trim();
+
+    if (email.isEmpty) {
+      AwesomeDialog(
+        context: context,
+        dialogType: DialogType.warning,
+        title: "Warning",
+        desc: "Please enter your email address.",
+        btnOkOnPress: () {},
+      ).show();
+      return;
+    }
+
+    await Firebasemanger.resetPassword(
+      email: email,
+      onSuccess: () {
+        AwesomeDialog(
+          context: context,
+          dialogType: DialogType.success,
+          title: "Success",
+          desc: "Password reset link has been sent to your email.",
+          btnOkOnPress: () {
+            Navigator.pop(context);
+          },
+          btnCancelOnPress: () {},
+        ).show();
+      },
+      onError: (errorMsg) {
+        AwesomeDialog(
+          context: context,
+          dialogType: DialogType.error,
+          title: " Error",
+          desc: errorMsg,
+          btnOkOnPress: () {},
+
+          btnCancelOnPress: () {},
+        ).show();
+      },
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "Forget Password",
-        ),
+        title: Text("Forget Password"),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
           icon: Icon(
@@ -30,6 +80,8 @@ class ForgetPasswordScreen extends StatelessWidget {
               Image.asset("assets/images/forgot password.png"),
               SizedBox(height: 24),
               TextFormField(
+                controller: _emailController,
+
                 decoration: InputDecoration(
                   fillColor: Theme.of(context).colorScheme.secondary,
                   filled: true,
@@ -53,7 +105,8 @@ class ForgetPasswordScreen extends StatelessWidget {
               ),
               SizedBox(height: 24),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: _resetPassword,
+
                 child: Text(
                   "Verify Email",
                   style: GoogleFonts.roboto(

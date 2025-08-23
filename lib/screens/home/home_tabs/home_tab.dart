@@ -25,7 +25,7 @@ class _HomeTabState extends State<HomeTab> {
       width: double.infinity,
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assets/images/home_bg.png',),
+          image: AssetImage('assets/images/home_bg.png'),
           fit: BoxFit.cover,
         ),
       ),
@@ -47,10 +47,7 @@ class _HomeTabState extends State<HomeTab> {
                 child: AnimatedScale(
                   scale: isSelected ? 1.1 : 0.9,
                   duration: const Duration(milliseconds: 150),
-                  child: Image.asset(
-                    avatars[index],
-                    fit: BoxFit.contain,
-                  ),
+                  child: Image.asset(avatars[index], fit: BoxFit.contain),
                 ),
               );
             },
@@ -80,11 +77,17 @@ class _HomeTabState extends State<HomeTab> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Action",style: Theme.of(context).textTheme.headlineSmall,),
-                Text("See More ➔",style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontSize: 16.sp
-                ),),
+                Text(
+                  "Action",
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+                Text(
+                  "See More ➔",
+                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontSize: 16.sp,
+                  ),
+                ),
               ],
             ),
           ),
@@ -101,21 +104,14 @@ class _HomeTabState extends State<HomeTab> {
                     height: 220.h,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20.r),
-                      child: Image.asset(
-                        avatars[index],
-                      ),
+                      child: Image.asset(avatars[index]),
                     ),
                   ),
                 );
               },
             ),
           ),
-
-
-
-
-        ]
-
+        ],
       ),
     );
   }

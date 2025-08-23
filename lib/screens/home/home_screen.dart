@@ -10,7 +10,6 @@ class HomeScreen extends StatefulWidget {
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
-
 }
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -20,7 +19,10 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       bottomNavigationBar: Padding(
         padding: EdgeInsets.only(
-            left: 8.w, right: 8.w, bottom: 20.h), // يخليه مش لازق
+          left: 8.w,
+          right: 8.w,
+          bottom: 20.h,
+        ), // يخليه مش لازق
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 12, horizontal: 20),
           decoration: BoxDecoration(
@@ -44,18 +46,21 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildNavItem(String Img, int index) {
     return GestureDetector(
-        onTap: () {
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ImageIcon(AssetImage("assets/icons/$Img.png"),
-            color: _selectedIndex != index
-                ? Colors.white
-                : Theme.of(context).colorScheme.primary,
-            size: 24.sp,),
-        ),);
+      onTap: () {
+        setState(() {
+          _selectedIndex = index;
+        });
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ImageIcon(
+          AssetImage("assets/icons/$Img.png"),
+          color: _selectedIndex != index
+              ? Colors.white
+              : Theme.of(context).colorScheme.primary,
+          size: 24.sp,
+        ),
+      ),
+    );
   }
 }

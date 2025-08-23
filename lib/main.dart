@@ -1,5 +1,7 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:movies_app/firebase_options.dart';
 import 'package:movies_app/screens/Auth/forget_password_screen.dart';
 import 'package:movies_app/screens/Auth/login_screen.dart';
 import 'package:movies_app/screens/Auth/register_screen.dart';
@@ -11,9 +13,12 @@ import 'package:movies_app/screens/introduction/splash_screen.dart';
 import 'core/cache_helper/cache_helper.dart';
 import 'core/themes/app_theme.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SharedPreferencesHelper.init();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  await SharedPreferencesHelper.init();
+
   runApp(const MyApp());
 }
 
@@ -38,9 +43,10 @@ class MyApp extends StatelessWidget {
           HomeScreen.routeName: (context) => HomeScreen(),
           LoginScreen.routeName: (context) => const LoginScreen(),
           RegisterScreen.routeName: (context) => const RegisterScreen(),
-          ForgetPasswordScreen.routeName: (context) => const ForgetPasswordScreen(),
+          ForgetPasswordScreen.routeName: (context) =>
+              const ForgetPasswordScreen(),
         },
-        initialRoute: HomeScreen.routeName,
+        initialRoute: SplashScreen.routeName,
       ),
     );
   }
