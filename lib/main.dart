@@ -16,7 +16,6 @@ import 'core/themes/app_theme.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
   await SharedPreferencesHelper.init();
 
   runApp(const MyApp());
@@ -43,10 +42,9 @@ class MyApp extends StatelessWidget {
           HomeScreen.routeName: (context) => HomeScreen(),
           LoginScreen.routeName: (context) => const LoginScreen(),
           RegisterScreen.routeName: (context) => const RegisterScreen(),
-          ForgetPasswordScreen.routeName: (context) =>
-              const ForgetPasswordScreen(),
+          ForgetPasswordScreen.routeName: (context) => const ForgetPasswordScreen(),
         },
-        initialRoute: SplashScreen.routeName,
+        initialRoute: HomeScreen.routeName,
       ),
     );
   }

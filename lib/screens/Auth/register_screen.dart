@@ -209,7 +209,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   desc: value,
                                   btnCancelOnPress: () {},
                                   btnOkOnPress: () {},
-                                )..show();
+                                ).show();
                               },
                               onSuccess: () {
                                 setState(() => isLoading = false);
@@ -231,7 +231,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       LoginScreen.routeName,
                                     );
                                   },
-                                )..show();
+                                ).show();
                               },
                             );
                           }
