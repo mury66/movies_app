@@ -28,7 +28,7 @@ class AvailableNowSectionItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(20.r),
               child: AnimatedScale(
                 duration: const Duration(milliseconds: 150),
-                scale: isSelected ? 1.1 : 0.9,
+                scale: isSelected ? 1 : 0.9,
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(20.r),
                     child: Image.network(movie.largeCoverImage??"", fit: BoxFit.cover)),

@@ -1,16 +1,16 @@
-abstract class AppStates{}
-class AppInitialState extends AppStates{}
+abstract class HomeStates{}
+class HomeInitialState extends HomeStates{}
 
-class AppChangeTabState extends AppStates{}
+class HomeChangeTabState extends HomeStates{}
 
-class AppGetMoviesLoadingState extends AppStates{}
-class AppGetMoviesSuccessState extends AppStates{}
-class AppGetMoviesErrorState extends AppStates{}
+class HomeGetMoviesLoadingState extends HomeStates{}
+class HomeGetMoviesSuccessState extends HomeStates{}
+class HomeGetMoviesErrorState extends HomeStates{}
 
-class AppGetCategoryMoviesLoadingState extends AppStates{}
-class AppGetCategoryMoviesSuccessState extends AppStates{}
-class AppGetCategoryMoviesErrorState extends AppStates{}
+class HomeGetCategoryMoviesLoadingState extends HomeStates{}
+class HomeGetCategoryMoviesSuccessState extends HomeStates{}
+class HomeGetCategoryMoviesErrorState extends HomeStates{}
 
 
 
-class AppChangeSelectedMovieState extends AppStates{}
+class HomeChangeSelectedMovieState extends HomeStates{}

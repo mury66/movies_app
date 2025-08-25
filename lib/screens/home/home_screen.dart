@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/repository/home_repo.dart';
 import 'package:movies_app/repository/home_repo_imp.dart';
-import '../../bloc/app_cubit.dart';
-import '../../bloc/states.dart';
+import '../../bloc/app_cubit/app_cubit.dart';
+import '../../bloc/app_cubit/states.dart';
+import '../../bloc/home_tab_cubit/home_cubit.dart';
 import '../../widgets/bottom_nav_bar.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -13,8 +14,11 @@ class HomeScreen extends StatelessWidget {
   HomeRepo repo = HomeRepoImpelementation();
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AppCubit(repo)..getMovies()..getAllCategoriesMovies(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => AppCubit()),
+        BlocProvider(create: (context) => HomeCubit(repo)..getMovies()..getAllCategoriesMovies()),
+      ],
       child: BlocBuilder<AppCubit, AppStates>(
         builder: (BuildContext context, state) {
           final cubit = BlocProvider.of<AppCubit>(context);

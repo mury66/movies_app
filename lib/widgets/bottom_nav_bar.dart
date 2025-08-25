@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../bloc/app_cubit.dart';
+import '../bloc/app_cubit/app_cubit.dart';
 
 class BottomNavBar extends StatelessWidget {
   const BottomNavBar({super.key});

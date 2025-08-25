@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:movies_app/bloc/app_cubit.dart';
+import 'package:movies_app/bloc/app_cubit/app_cubit.dart';
+import 'package:movies_app/bloc/home_tab_cubit/home_cubit.dart';
 
 class WatchNowSectionItem extends StatelessWidget {
   int sectionIndex;
-  AppCubit cubit;
+  HomeCubit cubit;
   WatchNowSectionItem({super.key, required this.sectionIndex, required this.cubit});
 
   @override
@@ -19,7 +20,9 @@ class WatchNowSectionItem extends StatelessWidget {
             children: [
               Text(
                 cubit.genres[sectionIndex],
-                style: Theme.of(context).textTheme.headlineSmall,
+                style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               Text(
                 "See More ➔",

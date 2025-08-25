@@ -62,10 +62,7 @@ class IntroScreen extends StatelessWidget {
                       ),
                       onPressed: () {
                         Navigator.pushNamed(
-                          context,
-                          SharedPreferencesHelper.getOnBoardingSeen()
-                              ? HomeScreen.routeName
-                              : onBoardingScreen.routeName,
+                          context,onBoardingScreen.routeName,
                         );
                       },
                       child: Text("Explore Now"),

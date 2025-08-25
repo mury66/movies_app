@@ -3,9 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../bloc/app_cubit.dart';
-import '../../../bloc/states.dart';
+import '../../../bloc/home_tab_cubit/home_cubit.dart';
+import '../../../bloc/home_tab_cubit/home_states.dart';
 import '../../../models/movies_model.dart';
 import '../../../widgets/available_now_section_item.dart';
 import '../../../widgets/watch_now_section_item.dart';
@@ -15,17 +14,17 @@ class HomeTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AppCubit, AppStates>(
+    return BlocBuilder<HomeCubit,HomeStates>(
       builder: (BuildContext context, state) {
-        AppCubit cubit = BlocProvider.of<AppCubit>(context);
+        HomeCubit cubit = BlocProvider.of<HomeCubit>(context);
         for (var key in cubit.categoryMovies.keys) {
           print("Genre: $key, Movies Count: ${cubit.categoryMovies[key]?.data?.movies?.length ?? 0}");
         }
         List<Movies> movies = cubit.moviesResponse?.data?.movies ?? [];
-          if(state is AppGetMoviesLoadingState){
+          if(state is HomeGetMoviesLoadingState){
             return Center(child: CircularProgressIndicator(color: Theme.of(context).colorScheme.primary,));
           }
-          else if(state is AppGetMoviesErrorState){
+          else if(state is HomeGetMoviesErrorState){
             return Center(child: Text("Something went wrong!",style: Theme.of(context).textTheme.headlineSmall,));
           }
           return Container(

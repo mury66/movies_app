@@ -1,61 +1,43 @@
-import 'package:flutter/material.dart';
-import 'package:movies_app/bloc/states.dart';
+
 import 'package:bloc/bloc.dart';
-import 'package:movies_app/models/movies_model.dart';
+import 'package:movies_app/bloc/home_tab_cubit/home_states.dart';
+import '../../constants/app_constants.dart';
+import '../../models/movies_model.dart';
+import '../../repository/home_repo.dart';
 
-import '../constants/app_constants.dart';
-import '../repository/home_repo.dart';
-import '../screens/home/home_tabs/explore_tab.dart';
-import '../screens/home/home_tabs/home_tab.dart';
-import '../screens/home/home_tabs/profile_tab.dart';
-import '../screens/home/home_tabs/search_tab.dart';
-
-class AppCubit extends Cubit<AppStates>{
+class HomeCubit extends Cubit<HomeStates>{
   HomeRepo homeRepo;
-  AppCubit(this.homeRepo) : super(AppInitialState());
+  HomeCubit(this.homeRepo) : super(HomeInitialState());
 
-  List<Widget> screens = [
-    HomeTab(),
-    ExploreTab(),
-    SearchTab(),
-    ProfileTab(),
-  ];
-  int currentTab =0;
   int selectedMovie=0;
   MoviesModel ? moviesResponse;
   List<String> genres = AppConstants.genres;
   Map<String, MoviesModel> categoryMovies = {};
 
-  void changeTab(int index){
-    currentTab = index;
-    emit(AppChangeTabState());
-  }
-
   void changeSelectedMovie(int index){
     selectedMovie = index;
-    emit(AppChangeSelectedMovieState());
+    emit(HomeChangeSelectedMovieState());
   }
   void getMovies()async{
-    emit(AppGetMoviesLoadingState());
+    emit(HomeGetMoviesLoadingState());
     try{
       moviesResponse = await homeRepo.getMovies();
-      emit(AppGetMoviesSuccessState());
+      emit(HomeGetMoviesSuccessState());
     }catch(e){
-      emit(AppGetMoviesErrorState());
+      emit(HomeGetMoviesErrorState());
     }
   }
-
   void getAllCategoriesMovies()async{
-    emit(AppGetCategoryMoviesLoadingState());
+    emit(HomeGetCategoryMoviesLoadingState());
     try{
       final futures = genres.map((genre) async {
         final response = await homeRepo.getCategoryMovies(genre);
         categoryMovies[genre] = response;
       }).toList();
       await Future.wait(futures);
-      emit(AppGetCategoryMoviesSuccessState());
+      emit(HomeGetCategoryMoviesSuccessState());
     }catch(e){
-      emit(AppGetCategoryMoviesErrorState());
+      emit(HomeGetCategoryMoviesErrorState());
       print(e);
     }
   }
