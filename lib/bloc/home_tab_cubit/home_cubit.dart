@@ -30,6 +30,7 @@ class AppCubit extends Cubit<AppStates>{
     currentTab = index;
     emit(AppChangeTabState());
   }
+
   void changeSelectedMovie(int index){
     selectedMovie = index;
     emit(AppChangeSelectedMovieState());
