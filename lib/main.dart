@@ -1,3 +1,4 @@
+import 'package:bloc/bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,10 +13,12 @@ import 'package:movies_app/screens/introduction/splash_screen.dart';
 
 import 'core/cache_helper/cache_helper.dart';
 import 'core/themes/app_theme.dart';
+import 'observer.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  Bloc.observer = MyBlocObserver();
   await SharedPreferencesHelper.init();
 
   runApp(const MyApp());

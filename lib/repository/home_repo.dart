@@ -4,4 +4,5 @@ import '../models/movies_model.dart';
 
 abstract class HomeRepo {
   Future<MoviesModel> getMovies();
+  Future<MoviesModel> getCategoryMovies(String genre);
 }
