@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:movies_app/screens/Auth/login_screen.dart';
+import '../../core/cache_helper/cache_helper.dart';
 import 'intro_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -16,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(
       const Duration(milliseconds:1500),
       () {
-        Navigator.pushReplacementNamed(context, IntroScreen.routeName);
+        Navigator.pushReplacementNamed(context,SharedPreferencesHelper.getOnBoardingSeen() ? LoginScreen.routeName : IntroScreen.routeName);
       },
     );
     return Scaffold(

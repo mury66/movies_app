@@ -12,6 +12,17 @@ dependencies:
   flutter_screenutil: ^5.9.3
   google_fonts: ^6.3.0
   shared_preferences: ^2.5.3
+  easy_localization: ^3.0.8
+  carousel_slider: ^5.0.0
+  firebase_core: ^4.0.0
+  firebase_auth: ^6.0.0
+  cloud_firestore: ^6.0.0
+  awesome_dialog: ^3.2.1
+  google_sign_in: ^6.2.2  
+  bloc: ^9.0.0
+  flutter_bloc: ^9.1.1
+  dio: ^5.9.0
+  talker_dio_logger: ^4.9.3
 
 dev_dependencies:
   flutter_test:
@@ -22,6 +33,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/icons/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

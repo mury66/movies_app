@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movies_app/screens/home/home_screen.dart';
 import 'package:movies_app/screens/introduction/on_boarding_screen.dart';
 
-import '../../core/cashe_helper/cashe_helper.dart';
+import '../../core/cache_helper/cache_helper.dart';
 import '../../models/on_boarding_model.dart';
 
 class IntroScreen extends StatelessWidget {
@@ -17,17 +17,11 @@ class IntroScreen extends StatelessWidget {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset(
-            page.image,
-            fit: BoxFit.cover,
-          ),
+          Image.asset(page.image, fit: BoxFit.cover),
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [
-                  Colors.black,
-                  Colors.black.withAlpha(100),
-                ],
+                colors: [Colors.black, Colors.black.withAlpha(100)],
                 begin: Alignment.bottomCenter,
                 end: Alignment.topCenter,
               ),
@@ -47,36 +41,39 @@ class IntroScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 24.h),
                   Text(
-                    page.description == null?"": page.description!,
+                    page.description == null ? "" : page.description!,
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                      color: Theme.of(context).colorScheme.onPrimary.withAlpha(80),
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onPrimary.withAlpha(80),
                       fontWeight: FontWeight.w400,
                     ),
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(height: 24.h),
 
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15.r),
-                          ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.r),
                         ),
-                        onPressed: ()
-                        {
-                          Navigator.pushNamed(context, SharedPreferencesHelper.getOnBoardingSeen() ? HomeScreen.routeName : onBoardingScreen.routeName);
-                        },
-                        child: Text("Explore Now"),
-                      ),),
-
+                      ),
+                      onPressed: () {
+                        Navigator.pushNamed(
+                          context,onBoardingScreen.routeName,
+                        );
+                      },
+                      child: Text("Explore Now"),
+                    ),
+                  ),
                 ],
               ),
             ),
           ),
         ],
-      )
+      ),
     );
   }
 }
