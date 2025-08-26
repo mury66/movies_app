@@ -14,17 +14,30 @@ class HomeTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeCubit,HomeStates>(
+    return BlocBuilder<HomeCubit, HomeStates>(
       builder: (BuildContext context, state) {
         HomeCubit cubit = BlocProvider.of<HomeCubit>(context);
+        for (var key in cubit.categoryMovies.keys) {
+          print(
+            "Genre: $key, Movies Count: ${cubit.categoryMovies[key]?.data?.movies?.length ?? 0}",
+          );
+        }
         List<Movies> movies = cubit.moviesResponse?.data?.movies ?? [];
-          if(state is HomeGetMoviesLoadingState){
-            return Center(child: CircularProgressIndicator(color: Theme.of(context).colorScheme.primary,));
-          }
-          else if(state is HomeGetMoviesErrorState){
-            return Center(child: Text("Something went wrong!",style: Theme.of(context).textTheme.headlineSmall,));
-          }
-          return Container(
+        if (state is HomeGetMoviesLoadingState) {
+          return Center(
+            child: CircularProgressIndicator(
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          );
+        } else if (state is HomeGetMoviesErrorState) {
+          return Center(
+            child: Text(
+              "Something went wrong!",
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
+          );
+        }
+        return Container(
           width: double.infinity,
           decoration: BoxDecoration(
             image: DecorationImage(
@@ -34,9 +47,7 @@ class HomeTab extends StatelessWidget {
           ),
           child: CustomScrollView(
             slivers: [
-              SliverToBoxAdapter(
-                child: SizedBox(height: 25.h),
-              ),
+              SliverToBoxAdapter(child: SizedBox(height: 25.h)),
               SliverToBoxAdapter(
                 child: Image.asset(
                   'assets/images/available_now.png',
@@ -45,9 +56,7 @@ class HomeTab extends StatelessWidget {
                   height: 93.h,
                 ),
               ),
-              SliverToBoxAdapter(
-                child: SizedBox(height: 20.h),
-              ),
+              SliverToBoxAdapter(child: SizedBox(height: 20.h)),
               SliverToBoxAdapter(
                 child: CarouselSlider.builder(
                   itemCount: movies.length,
@@ -71,9 +80,7 @@ class HomeTab extends StatelessWidget {
                   ),
                 ),
               ),
-              SliverToBoxAdapter(
-                child: SizedBox(height: 20.h),
-              ),
+              SliverToBoxAdapter(child: SizedBox(height: 20.h)),
               SliverToBoxAdapter(
                 child: Image.asset(
                   'assets/images/watch_now.png',
@@ -82,21 +89,20 @@ class HomeTab extends StatelessWidget {
                   height: 93.h,
                 ),
               ),
-              SliverToBoxAdapter(
-                child: SizedBox(height: 20.h),
-              ),
+              SliverToBoxAdapter(child: SizedBox(height: 20.h)),
               SliverList.separated(
                 itemCount: cubit.genres.length,
                 separatorBuilder: (context, index) => SizedBox(height: 20.h),
                 itemBuilder: (context, sectionIndex) {
-                  return WatchNowSectionItem(sectionIndex: sectionIndex,cubit: cubit);
+                  return WatchNowSectionItem(
+                    sectionIndex: sectionIndex,
+                    cubit: cubit,
+                  );
                 },
               ),
-              SliverToBoxAdapter(
-                child: SizedBox(height: 20.h),
-              ),
-              ]
-          )
+              SliverToBoxAdapter(child: SizedBox(height: 20.h)),
+            ],
+          ),
         );
       },
     );
