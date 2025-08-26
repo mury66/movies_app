@@ -25,7 +25,7 @@ class SearchCubit extends Cubit<SearchStates> {
     emit(SearchLoadingState());
     try {
       final result = await repo.searchMovies(query);
-      emit(SearchSuccessState(result));
+      emit(SearchSuccessState(result.data?.movies ?? []));
     } catch (e) {
       emit(SearchErrorState(e.toString()));
     }

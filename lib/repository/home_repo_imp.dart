@@ -14,12 +14,7 @@ class HomeRepoImpelementation implements HomeRepo {
     try {
       var response = await apiManager.getApi(
         endPoint: ApiUrls.listMoviesEndpoint,
-        parameters: {
-          'limit': 10,
-          "sort_by": "year",
-          "sort_by": "rating",
-          "order_by": "desc",
-        },
+        parameters: {'limit': 10, "sort_by": "year", "order_by": "desc"},
       );
       MoviesModel result = MoviesModel.fromJson(response.data);
       return result;
@@ -38,6 +33,25 @@ class HomeRepoImpelementation implements HomeRepo {
           "sort_by": "year",
           "order_by": "desc",
           "genre": genre,
+        },
+      );
+      MoviesModel result = MoviesModel.fromJson(response.data);
+      return result;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  // ===> new: searchMovies
+  Future<MoviesModel> searchMovies(String query, {int limit = 20}) async {
+    try {
+      var response = await apiManager.getApi(
+        endPoint: ApiUrls.listMoviesEndpoint,
+        parameters: {
+          'query_term': query, // yts API uses 'query_term' for search
+          'limit': limit,
+          "sort_by": "year",
+          "order_by": "desc",
         },
       );
       MoviesModel result = MoviesModel.fromJson(response.data);
@@ -72,7 +86,9 @@ class HomeRepoImpelementation implements HomeRepo {
         endPoint: ApiUrls.movieSuggestionsEndpoint,
         parameters: {'movie_id': movieId},
       );
-      SuggestedMoviesModel result = SuggestedMoviesModel.fromJson(response.data);
+      SuggestedMoviesModel result = SuggestedMoviesModel.fromJson(
+        response.data,
+      );
       return result;
     } catch (e) {
       print("errooooooooooooooooooooor $e");
