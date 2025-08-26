@@ -28,12 +28,12 @@ class HomeRepoImpelementation implements HomeRepo{
   }
 
   @override
-  Future<MoviesModel> getCategoryMovies(String genre) async {
+  Future<MoviesModel> getCategoryMovies(String genre, {int limit = 10} ) async {
     try{
       var response = await apiManager.getApi(endPoint: ApiUrls.listMoviesEndpoint,
           parameters:
           {
-            'limit': 10,
+            'limit': limit,
             "sort_by" : "year",
             "order_by" : "desc",
             "genre" : genre

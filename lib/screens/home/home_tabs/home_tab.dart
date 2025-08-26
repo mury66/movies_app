@@ -17,9 +17,6 @@ class HomeTab extends StatelessWidget {
     return BlocBuilder<HomeCubit,HomeStates>(
       builder: (BuildContext context, state) {
         HomeCubit cubit = BlocProvider.of<HomeCubit>(context);
-        for (var key in cubit.categoryMovies.keys) {
-          print("Genre: $key, Movies Count: ${cubit.categoryMovies[key]?.data?.movies?.length ?? 0}");
-        }
         List<Movies> movies = cubit.moviesResponse?.data?.movies ?? [];
           if(state is HomeGetMoviesLoadingState){
             return Center(child: CircularProgressIndicator(color: Theme.of(context).colorScheme.primary,));
@@ -98,7 +95,6 @@ class HomeTab extends StatelessWidget {
               SliverToBoxAdapter(
                 child: SizedBox(height: 20.h),
               ),
-
               ]
           )
         );
