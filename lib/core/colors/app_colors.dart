@@ -45,5 +45,5 @@ class AppColors implements MainColors {
   Color get warning => const Color(0xFFFFA000); // Amber
 
   @override
-  Color get error => const Color(0xFFB00020);
+  Color get error => const Color(0xFFE82626);
 }

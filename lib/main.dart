@@ -12,6 +12,7 @@ import 'package:movies_app/firebase_options.dart';
 import 'package:movies_app/observer.dart';
 import 'package:movies_app/repository/home_repo_imp.dart';
 import 'package:movies_app/screens/home/home_screen.dart';
+import 'package:movies_app/screens/home/home_tabs/profile_tab.dart';
 import 'package:movies_app/screens/home/home_tabs/search_tab.dart';
 import 'package:movies_app/screens/Auth/forget_password_screen.dart';
 import 'package:movies_app/screens/Auth/login_screen.dart';
@@ -68,6 +69,7 @@ class MyApp extends StatelessWidget {
             ForgetPasswordScreen.routeName: (context) =>
                 const ForgetPasswordScreen(),
             SearchTab.routeName: (context) => const SearchTab(),
+            ProfileTab.routeName: (context) => const ProfileTab(),
           },
           initialRoute: SplashScreen.routeName,
         ),
