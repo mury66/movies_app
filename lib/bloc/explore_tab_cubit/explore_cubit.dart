@@ -13,7 +13,7 @@ class ExploreCubit extends Cubit<ExploreStates>{
   int currentCategoryIndex = 0;
   Map<String, MoviesModel> categoryMovies = {};
 
-  void getAllCategoriesMovies()async{
+  void getCurrentCategoryMovie()async{
     final genre = genres[currentCategoryIndex];
     if (categoryMovies.containsKey(genre) && categoryMovies[genre] != null) {
       emit(ExploreGetCategoryMoviesSuccessState());
@@ -30,7 +30,7 @@ class ExploreCubit extends Cubit<ExploreStates>{
   }
   void changeCategoryIndex(int index){
     currentCategoryIndex = index;
-    getAllCategoriesMovies();
+    getCurrentCategoryMovie();
     emit(ExploreChangeCategoryIndexState());
   }
 

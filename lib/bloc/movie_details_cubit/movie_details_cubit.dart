@@ -1,39 +1,40 @@
 
+
 import 'package:bloc/bloc.dart';
-import 'package:movies_app/bloc/home_tab_cubit/home_states.dart';
-import '../../constants/app_constants.dart';
-import '../../models/movies_model.dart';
+
+import '../../models/movie_details.dart';
+import '../../models/movies_suggestions.dart';
 import '../../repository/home_repo.dart';
-import 'explore_states.dart';
+import '../explore_tab_cubit/explore_states.dart';
+import 'movie_details_states.dart';
 
-class ExploreCubit extends Cubit<ExploreStates>{
+class MovieDetailsCubit extends Cubit<MovieDetailsStates>{
   HomeRepo homeRepo;
-  ExploreCubit(this.homeRepo) : super(ExploreInitialState());
-  List<String> genres = AppConstants.genres;
-  int currentCategoryIndex = 0;
-  Map<String, MoviesModel> categoryMovies = {};
+  MovieDetailsCubit(this.homeRepo) : super(MovieDetailsInitialState());
 
-  void getAllCategoriesMovies()async{
-    final genre = genres[currentCategoryIndex];
-    if (categoryMovies.containsKey(genre) && categoryMovies[genre] != null) {
-      emit(ExploreGetCategoryMoviesSuccessState());
-      return;
-    }
-    emit(ExploreGetCategoryMoviesLoadingState());
+  MovieDetailsModel? movieDetailsResponse;
+
+  SuggestedMoviesModel? similarMoviesResponse;
+
+  void getMovieDetails({required int movieId}) async{
+    emit(MovieDetailsGetLoadingState());
     try{
-      final response = await homeRepo.getCategoryMovies(genres[currentCategoryIndex],limit: 50);
-      categoryMovies[genres[currentCategoryIndex]] = response;
-      emit(ExploreGetCategoryMoviesSuccessState());
+      movieDetailsResponse = await homeRepo.getMovieDetails(movieId);
+      emit(MovieDetailsGetSuccessState());
     }catch(e){
-      emit(ExploreGetCategoryMoviesErrorState());
+      emit(MovieDetailsGetErrorState());
     }
   }
-  void changeCategoryIndex(int index){
-    currentCategoryIndex = index;
-    getAllCategoriesMovies();
-    emit(ExploreChangeCategoryIndexState());
-  }
 
+  void getSimilarMovies({required int movieId}) async{
+    emit(MovieDetailsGetSimilarLoadingState());
+    try{
+      similarMoviesResponse = await homeRepo.getSimilarMovie(movieId);
+      emit(MovieDetailsGetSimilarSuccessState());
+    }catch(e){
+      emit(MovieDetailsGetSimilarErrorState());
+    }
+  }
 
 
 }

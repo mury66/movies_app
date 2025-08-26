@@ -1,12 +1,12 @@
-class MoviesSuggestions {
+class SuggestedMoviesModel {
   String? status;
   String? statusMessage;
   Data? data;
   Meta? meta;
 
-  MoviesSuggestions({this.status, this.statusMessage, this.data, this.meta});
+  SuggestedMoviesModel({this.status, this.statusMessage, this.data, this.meta});
 
-  MoviesSuggestions.fromJson(Map<String, dynamic> json) {
+  SuggestedMoviesModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     statusMessage = json['status_message'];
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;

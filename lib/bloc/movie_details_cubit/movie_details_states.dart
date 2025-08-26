@@ -1,8 +1,11 @@
-abstract class ExploreStates{}
-class ExploreInitialState extends ExploreStates{}
+abstract class MovieDetailsStates{}
 
-class ExploreGetCategoryMoviesLoadingState extends ExploreStates{}
-class ExploreGetCategoryMoviesSuccessState extends ExploreStates{}
-class ExploreGetCategoryMoviesErrorState extends ExploreStates{}
+class MovieDetailsInitialState extends MovieDetailsStates{}
 
-class ExploreChangeCategoryIndexState extends ExploreStates{}
+class MovieDetailsGetLoadingState extends MovieDetailsStates{}
+class MovieDetailsGetSuccessState extends MovieDetailsStates{}
+class MovieDetailsGetErrorState extends MovieDetailsStates{}
+
+class MovieDetailsGetSimilarLoadingState extends MovieDetailsStates{}
+class MovieDetailsGetSimilarSuccessState extends MovieDetailsStates{}
+class MovieDetailsGetSimilarErrorState extends MovieDetailsStates{}

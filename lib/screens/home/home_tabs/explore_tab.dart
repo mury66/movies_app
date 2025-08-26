@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movies_app/bloc/explore_tab_cubit/explore_states.dart';
 import '../../../bloc/explore_tab_cubit/explore_cubit.dart';
+import '../../../widgets/movie_list_item.dart';
 
 class ExploreTab extends StatelessWidget {
   const ExploreTab({super.key});
@@ -21,6 +22,9 @@ class ExploreTab extends StatelessWidget {
         return SafeArea(
           child: CustomScrollView(
             slivers: [
+              SliverToBoxAdapter(
+                child: SizedBox(height: 20.h),
+              ),
               SliverToBoxAdapter(
                 child: SizedBox(
                   height: 50.h,
@@ -65,38 +69,8 @@ class ExploreTab extends StatelessWidget {
                 delegate: SliverChildBuilderDelegate(
                       (BuildContext context, int index) {
                     final movie = cubit.categoryMovies[cubit.genres[cubit.currentCategoryIndex]]?.data?.movies?[index];
-                    return movie == null ? SizedBox.shrink() : Stack(
-                      children: [
-                        Container(
-                          width: double.infinity,
-                          height: 280.h,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12.r),
-                            image: DecorationImage(
-                              image: NetworkImage(movie.largeCoverImage ?? ''),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        Container(
-                            margin: EdgeInsets.only(top : 12.w , left:10.h),
-                            padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.secondary.withAlpha(80),
-                              borderRadius: BorderRadius.circular(10.r),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(movie.rating.toString(),style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                                  fontSize: 16.sp,
-                                ),),
-                                Icon(Icons.star, color: Theme.of(context).colorScheme.primary, size: 16.sp,)
-                              ],
-                            )
-                        )
-                      ],
-                    );
+                    return movie == null ? SizedBox.shrink() :
+                    MovieListItem(movie: movie);
                   },
                   childCount: cubit.categoryMovies[cubit.genres[cubit.currentCategoryIndex]]?.data?.movies?.length ?? 0,
                 ),

@@ -19,7 +19,7 @@ class HomeScreen extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => AppCubit()),
         BlocProvider(create: (context) => HomeCubit(repo)..getMovies()..getAllCategoriesMovies()),
-        BlocProvider(create: (context) => ExploreCubit(repo)..getAllCategoriesMovies()),
+        BlocProvider(create: (context) => ExploreCubit(repo)..getCurrentCategoryMovie()),
       ],
       child: BlocBuilder<AppCubit, AppStates>(
         builder: (BuildContext context, state) {

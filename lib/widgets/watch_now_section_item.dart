@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movies_app/bloc/app_cubit/app_cubit.dart';
 import 'package:movies_app/bloc/home_tab_cubit/home_cubit.dart';
 
+import 'movie_list_item.dart';
+
 class WatchNowSectionItem extends StatelessWidget {
   int sectionIndex;
   HomeCubit cubit;
@@ -41,36 +43,14 @@ class WatchNowSectionItem extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             itemCount: movies?.length ?? 0,
             itemBuilder: (context, index) {
+              final movie = movies?[index];
               return Padding(
                 padding: EdgeInsets.symmetric(horizontal: 8.0.w),
                 child: SizedBox(
                   width: 146.w,
                   height: 220.h,
-                  child: Stack(
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(20.r),
-                        child: Image.network(movies?[index].largeCoverImage ?? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFQLq_zxU1kYiJ1If0mU0oITrego5NQa07hw&s", fit: BoxFit.cover),
-                      ),
-                      Container(
-                          margin: EdgeInsets.only(top : 12.w , left:10.h),
-                          padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.secondary.withAlpha(80),
-                            borderRadius: BorderRadius.circular(10.r),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text("${movies?[index].rating} ",style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                                fontSize: 16.sp,
-                              ),),
-                              Icon(Icons.star, color: Theme.of(context).colorScheme.primary, size: 16.sp,)
-                            ],
-                          )
-                      )
-                    ],
-                  ),
+                  child: movie == null ? SizedBox.shrink() :
+                  MovieListItem(movie: movie)
                 ),
               );
             },
