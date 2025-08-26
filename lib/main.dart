@@ -1,9 +1,13 @@
+// main.dart
 import 'package:bloc/bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/bloc/app_cubit/app_cubit.dart';
+import 'package:movies_app/bloc/explore_tab_cubit/explore_cubit.dart';
+import 'package:movies_app/bloc/home_tab_cubit/home_cubit.dart';
+import 'package:movies_app/bloc/search_tab_cubit/search_cubit.dart';
 import 'package:movies_app/firebase_options.dart';
 import 'package:movies_app/observer.dart';
 import 'package:movies_app/repository/home_repo_imp.dart';
@@ -33,12 +37,23 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final repo = HomeRepoImpelementation();
+
     return ScreenUtilInit(
       designSize: const Size(430, 932),
       minTextAdapt: true,
       splitScreenMode: true,
-      builder: (context, child) => BlocProvider(
-        create: (_) => AppCubit(),
+      builder: (context, child) => MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (_) => AppCubit()),
+          BlocProvider(
+            create: (_) => HomeCubit(repo)
+              ..getMovies()
+              ..getAllCategoriesMovies(),
+          ),
+          BlocProvider(create: (_) => SearchCubit(repo)),
+          BlocProvider(create: (_) => ExploreCubit(repo)),
+        ],
         child: MaterialApp(
           theme: AppTheme.getTheme(context: context),
           debugShowCheckedModeBanner: false,

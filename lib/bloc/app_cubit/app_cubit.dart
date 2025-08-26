@@ -8,7 +8,7 @@ import '../../screens/home/home_tabs/search_tab.dart';
 
 class AppCubit extends Cubit<AppStates> {
   AppCubit() : super(AppInitialState());
-  List<Widget> screens = [HomeTab(), ExploreTab(), SearchTab(), ProfileTab()];
+  List<Widget> screens = [HomeTab(), SearchTab(), ExploreTab(), ProfileTab()];
   int currentTab = 0;
   void changeTab(int index) {
     currentTab = index;
