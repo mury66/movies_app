@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
           RegisterScreen.routeName: (context) => const RegisterScreen(),
           ForgetPasswordScreen.routeName: (context) =>const ForgetPasswordScreen(),
         },
-        initialRoute: SplashScreen.routeName,
+        initialRoute: HomeScreen.routeName,
       ),
     );
   }

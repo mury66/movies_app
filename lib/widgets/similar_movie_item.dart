@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:movies_app/models/movie_details.dart';
-
-import '../models/movies_model.dart';
+import '../models/movies_suggestions.dart';
 import '../screens/movie_details/movie_details_screen.dart';
 
-class MovieListItem extends StatelessWidget {
-  final Movies movie;
-  const MovieListItem({super.key, required this.movie});
+class SimilarMovieItem extends StatelessWidget {
+  final Movies? movie;
+  const SimilarMovieItem({super.key, required this.movie});
 
   @override
   Widget build(BuildContext context) {
@@ -15,13 +13,14 @@ class MovieListItem extends StatelessWidget {
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => MovieDetailsScreen(movieId:movie.id??0),
-          ),
-        );
-
+        if (movie?.id != null) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MovieDetailsScreen(movieId: movie!.id??0),
+            ),
+          );
+        }
       },
 
       child: Stack(
