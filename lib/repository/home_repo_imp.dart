@@ -41,7 +41,6 @@ class HomeRepoImpelementation implements HomeRepo {
       rethrow;
     }
   }
-<<<<<<< HEAD
 
   // ===> new: searchMovies
   Future<MoviesModel> searchMovies(String query, {int limit = 20}) async {
@@ -61,8 +60,6 @@ class HomeRepoImpelementation implements HomeRepo {
       rethrow;
     }
   }
-=======
->>>>>>> origin/develop_amer
 
   @override
   Future<MovieDetailsModel> getMovieDetails(int movieId) async {
