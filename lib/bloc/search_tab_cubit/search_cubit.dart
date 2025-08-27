@@ -1,9 +1,10 @@
 import 'package:bloc/bloc.dart';
+import 'package:movies_app/repository/home_repo.dart';
 import 'search_states.dart';
 import '../../repository/home_repo_imp.dart';
 
 class SearchCubit extends Cubit<SearchStates> {
-  final HomeRepoImpelementation repo;
+  HomeRepo repo;
   SearchCubit(this.repo) : super(SearchInitialState());
 
   Future<void> getInitialMovies() async {

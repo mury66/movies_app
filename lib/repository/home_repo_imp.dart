@@ -43,6 +43,7 @@ class HomeRepoImpelementation implements HomeRepo {
   }
 
   // ===> new: searchMovies
+  @override
   Future<MoviesModel> searchMovies(String query, {int limit = 20}) async {
     try {
       var response = await apiManager.getApi(

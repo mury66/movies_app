@@ -7,4 +7,6 @@ abstract class HomeRepo {
   Future<MoviesModel> getCategoryMovies(String genre, {int limit = 10});
   Future<MovieDetailsModel> getMovieDetails(int movieId);
   Future<SuggestedMoviesModel> getSimilarMovie(int movieId);
+  Future<MoviesModel> searchMovies (String query, {int limit = 20});
+
 }
