@@ -4,16 +4,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movies_app/bloc/app_cubit/app_cubit.dart';
-import 'package:movies_app/bloc/explore_tab_cubit/explore_cubit.dart';
-import 'package:movies_app/bloc/home_tab_cubit/home_cubit.dart';
-import 'package:movies_app/bloc/search_tab_cubit/search_cubit.dart';
 import 'package:movies_app/firebase_options.dart';
 import 'package:movies_app/observer.dart';
 import 'package:movies_app/repository/home_repo_imp.dart';
 import 'package:movies_app/screens/home/home_screen.dart';
 import 'package:movies_app/screens/home/home_tabs/profile_tab.dart';
-import 'package:movies_app/screens/home/home_tabs/search_tab.dart';
 import 'package:movies_app/screens/Auth/forget_password_screen.dart';
 import 'package:movies_app/screens/Auth/login_screen.dart';
 import 'package:movies_app/screens/Auth/register_screen.dart';
@@ -45,35 +40,20 @@ class MyApp extends StatelessWidget {
       designSize: const Size(430, 932),
       minTextAdapt: true,
       splitScreenMode: true,
-      builder: (context, child) => MultiBlocProvider(
-        providers: [
-          BlocProvider(create: (_) => AppCubit()),
-          BlocProvider(
-            create: (_) => HomeCubit(repo)
-              ..getMovies()
-              ..getAllCategoriesMovies(),
-          ),
-          BlocProvider(create: (_) => SearchCubit(repo)),
-          BlocProvider(create: (_) => ExploreCubit(repo)),
-        ],
-        child: MaterialApp(
-          theme: AppTheme.getTheme(context: context),
-          debugShowCheckedModeBanner: false,
-          title: 'Movies App',
-          routes: {
-            SplashScreen.routeName: (context) => const SplashScreen(),
-            onBoardingScreen.routeName: (context) => onBoardingScreen(),
-            IntroScreen.routeName: (context) => IntroScreen(),
-            HomeScreen.routeName: (context) => HomeScreen(),
-            LoginScreen.routeName: (context) => const LoginScreen(),
-            RegisterScreen.routeName: (context) => const RegisterScreen(),
-            ForgetPasswordScreen.routeName: (context) =>
-                const ForgetPasswordScreen(),
-            SearchTab.routeName: (context) => const SearchTab(),
-            ProfileTab.routeName: (context) => const ProfileTab(),
-          },
-          initialRoute: SplashScreen.routeName,
-        ),
+      builder: (context, child) => MaterialApp(
+        theme: AppTheme.getTheme(context: context),
+        debugShowCheckedModeBanner: false,
+        title: 'Movies App',
+        routes: {
+          SplashScreen.routeName: (context) => const SplashScreen(),
+          onBoardingScreen.routeName: (context) => onBoardingScreen(),
+          IntroScreen.routeName: (context) => IntroScreen(),
+          HomeScreen.routeName: (context) => HomeScreen(),
+          LoginScreen.routeName: (context) => const LoginScreen(),
+          RegisterScreen.routeName: (context) => const RegisterScreen(),
+          ForgetPasswordScreen.routeName: (context) =>const ForgetPasswordScreen(),
+        },
+        initialRoute: HomeScreen.routeName,
       ),
     );
   }
