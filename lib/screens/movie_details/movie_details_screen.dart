@@ -10,7 +10,7 @@ import '../../widgets/similar_movie_item.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MovieDetailsScreen extends StatelessWidget {
-  final int movieId;
+  final movieId;
   const MovieDetailsScreen({super.key, required this.movieId});
 
   @override
@@ -48,25 +48,43 @@ class MovieDetailsScreen extends StatelessWidget {
 
           if (state is MovieDetailsGetLoadingState ||
               state is MovieDetailsGetSimilarLoadingState) {
-            return Center(child: const CircularProgressIndicator(
-            ));
+            return Scaffold(
+              body: Center(child: const CircularProgressIndicator()),
+            );
           }
           if (state is MovieDetailsGetErrorState ||
               state is MovieDetailsGetSimilarErrorState) {
-            return const Text("Error");
+            return Scaffold(
+              body: Center(
+                child: Column(
+                  children: [
+                    Text("No Data"),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text("Back To Home"),
+                    ),
+                  ],
+                ),
+              ),
+            );
           }
 
           if (movie == null) {
-            return Center(child: Column(
-              children: [
-                Text("No Data"),
-                TextButton(
-                    onPressed: (){
+            return Center(
+              child: Column(
+                children: [
+                  Text("No Data"),
+                  TextButton(
+                    onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    child: Text("Back To Home")),
-              ],
-            ));
+                    child: Text("Back To Home"),
+                  ),
+                ],
+              ),
+            );
           }
 
           return Scaffold(

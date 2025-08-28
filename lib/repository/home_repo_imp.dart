@@ -81,7 +81,7 @@ class HomeRepoImpelementation implements HomeRepo {
   }
 
   @override
-  Future<SuggestedMoviesModel> getSimilarMovie(int movieId) async {
+  Future<SuggestedMoviesModel> getSimilarMovie(movieId) async {
     try {
       var response = await apiManager.getApi(
         endPoint: ApiUrls.movieSuggestionsEndpoint,
