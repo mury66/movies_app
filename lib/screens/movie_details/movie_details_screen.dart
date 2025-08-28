@@ -17,8 +17,7 @@ class MovieDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     HomeRepo repo = HomeRepoImpelementation();
     return BlocProvider(
-      create: (context) =>
-      MovieDetailsCubit(repo)
+      create: (context) => MovieDetailsCubit(repo)
         ..getMovieDetails(movieId: movieId)
         ..getSimilarMovies(movieId: movieId),
       child: BlocBuilder<MovieDetailsCubit, MovieDetailsStates>(
@@ -30,24 +29,52 @@ class MovieDetailsScreen extends StatelessWidget {
             movie?.data?.movie?.mediumScreenshotImage2,
             movie?.data?.movie?.mediumScreenshotImage3,
           ];
-          final List<Movies>? similarMovies = cubit.similarMoviesResponse?.data?.movies;
+          List<String?> castNames = [
+            for (var actor in movie?.data?.movie?.cast ?? []) actor.name,
+          ];
+          List<String?> castImg = [
+            for (var actor in movie?.data?.movie?.cast ?? [])
+              actor.urlSmallImage,
+          ];
+          List<String?> castCharacters = [
+            for (var actor in movie?.data?.movie?.cast ?? [])
+              actor.characterName,
+          ];
+          List<String?> genres = [
+            for (var genre in movie?.data?.movie?.genres ?? []) genre,
+          ];
+          final List<Movies>? similarMovies =
+              cubit.similarMoviesResponse?.data?.movies;
 
-          if (state is MovieDetailsGetLoadingState) {
-            return const Center(child: CircularProgressIndicator());
+          if (state is MovieDetailsGetLoadingState ||
+              state is MovieDetailsGetSimilarLoadingState) {
+            return Center(child: const CircularProgressIndicator(
+            ));
+          }
+          if (state is MovieDetailsGetErrorState ||
+              state is MovieDetailsGetSimilarErrorState) {
+            return const Text("Error");
           }
 
           if (movie == null) {
-            return const Scaffold(
-              body: Center(child: Text("No movie details found")),
-            );
+            return Center(child: Column(
+              children: [
+                Text("No Data"),
+                TextButton(
+                    onPressed: (){
+                      Navigator.of(context).pop();
+                    },
+                    child: Text("Back To Home")),
+              ],
+            ));
           }
 
           return Scaffold(
             body: CustomScrollView(
               slivers: [
+                // Cover section
                 SliverToBoxAdapter(
-                  child:
-                  Stack(
+                  child: Stack(
                     children: [
                       Stack(
                         alignment: Alignment.bottomCenter,
@@ -57,30 +84,25 @@ class MovieDetailsScreen extends StatelessWidget {
                             children: [
                               Image.network(
                                 movie.data?.movie?.largeCoverImage ??
-                                    "https://via.placeholder.com/300",
+                                    "https://placehold.co/400",
                                 fit: BoxFit.cover,
-                                height: MediaQuery.of(context).size.height *
-                                    0.7,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.7,
                                 width: double.infinity,
                               ),
                               Container(
-                                height: MediaQuery.of(context).size.height *
-                                    0.7,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.7,
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(
                                     begin: Alignment.topCenter,
                                     end: Alignment.bottomCenter,
                                     colors: [
-                                      const Color(0xff121312)
-                                          .withOpacity(0.1),
-                                      const Color(0xff121312)
-                                          .withOpacity(0.3),
-                                      const Color(0xff121312)
-                                          .withOpacity(0.8),
-                                      const Color(0xff121312)
-                                          .withOpacity(0.9),
-                                      const Color(0xff121312)
-                                          .withOpacity(1),
+                                      const Color(0xff121312).withOpacity(0.1),
+                                      const Color(0xff121312).withOpacity(0.3),
+                                      const Color(0xff121312).withOpacity(0.8),
+                                      const Color(0xff121312).withOpacity(0.9),
+                                      const Color(0xff121312).withOpacity(1),
                                     ],
                                   ),
                                 ),
@@ -89,32 +111,24 @@ class MovieDetailsScreen extends StatelessWidget {
                             ],
                           ),
                           Column(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               SizedBox(height: 8.h),
                               Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 16.w),
+                                padding: EdgeInsets.symmetric(horizontal: 16.w),
                                 child: Text(
-                                  movie.data?.movie?.title ??
-                                      "no Title",
+                                  movie.data?.movie?.title ?? "no Title",
                                   textAlign: TextAlign.center,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headlineMedium,
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.headlineMedium,
                                 ),
                               ),
                               SizedBox(height: 8.h),
                               Text(
-                                movie.data?.movie?.year.toString() ??
-                                    "no Title",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleMedium!
-                                    .copyWith(
-                                  color: Colors.grey,
-                                ),
+                                movie.data?.movie?.year.toString() ?? "NA",
+                                style: Theme.of(context).textTheme.titleMedium!
+                                    .copyWith(color: Colors.grey),
                               ),
                             ],
                           ),
@@ -128,15 +142,19 @@ class MovieDetailsScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             IconButton(
-                              icon: const ImageIcon(AssetImage("assets/icons/arr_back_ic.png"),
-                                  color: Colors.white),
+                              icon: const ImageIcon(
+                                AssetImage("assets/icons/arr_back_ic.png"),
+                                color: Colors.white,
+                              ),
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
                             ),
                             IconButton(
-                              icon: const ImageIcon(AssetImage("assets/icons/save_ic.png"),
-                                  color: Colors.white),
+                              icon: const ImageIcon(
+                                AssetImage("assets/icons/save_ic.png"),
+                                color: Colors.white,
+                              ),
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
@@ -144,19 +162,17 @@ class MovieDetailsScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-
                     ],
                   ),
                 ),
-                SliverToBoxAdapter(child: SizedBox(height: 16.h,),),
-                //watch button and stats
+                SliverToBoxAdapter(child: SizedBox(height: 16.h)),
+                // Watch button and stats
                 SliverToBoxAdapter(
                   child: Column(
                     spacing: 16.h,
                     children: [
                       Padding(
-                        padding:
-                        EdgeInsets.symmetric(horizontal: 16.0.w),
+                        padding: EdgeInsets.symmetric(horizontal: 16.0.w),
                         child: ElevatedButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
@@ -165,161 +181,84 @@ class MovieDetailsScreen extends StatelessWidget {
                           ),
                           child: Text(
                             "Watch",
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleMedium,
+                            style: Theme.of(context).textTheme.titleMedium,
                           ),
                         ),
                       ),
                       Padding(
-                        padding:
-                        EdgeInsets.symmetric(horizontal: 16.0.w),
+                        padding: EdgeInsets.symmetric(horizontal: 16.0.w),
                         child: Row(
                           spacing: 4.w,
                           children: [
+                            // Likes
                             Expanded(
-                              child: Container(
-                                alignment: Alignment.center,
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 12.h, horizontal: 22.w),
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .secondary,
-                                  borderRadius:
-                                  BorderRadius.circular(16.r),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    ImageIcon(
-                                      AssetImage(
-                                          "assets/icons/like_ic.png"),
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .primary,
-                                      size: 28.sp,
-                                    ),
-                                    Text(
-                                        movie.data?.movie?.likeCount.toString() ??
-                                            "NA",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headlineMedium
-                                            ?.copyWith(
-                                            color: Colors.white)),
-                                  ],
-                                ),
+                              child: StatBox(
+                                icon: "assets/icons/like_ic.png",
+                                value: movie.data?.movie?.likeCount.toString(),
+                                context: context,
                               ),
                             ),
+                            // Runtime
                             Expanded(
-                              child: Container(
-                                alignment: Alignment.center,
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 12.h, horizontal: 22.w),
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .secondary,
-                                  borderRadius:
-                                  BorderRadius.circular(16.r),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    ImageIcon(
-                                      AssetImage(
-                                          "assets/icons/watch_ic.png"),
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .primary,
-                                      size: 28.sp,
-                                    ),
-                                    Text(movie.data?.movie?.runtime.toString() ??
-                                        "NA",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headlineMedium
-                                            ?.copyWith(
-                                            color: Colors.white)),
-                                  ],
-                                ),
+                              child: StatBox(
+                                icon: "assets/icons/watch_ic.png",
+                                value: movie.data?.movie?.runtime.toString(),
+                                context: context,
                               ),
                             ),
+                            // Rating
                             Expanded(
-                              child: Container(
-                                alignment: Alignment.center,
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 12.h, horizontal: 22.w),
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .secondary,
-                                  borderRadius:
-                                  BorderRadius.circular(16.r),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    ImageIcon(
-                                      AssetImage(
-                                          "assets/icons/star_ic.png"),
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .primary,
-                                      size: 28.sp,
-                                    ),
-                                    Text(movie.data?.movie?.rating.toString() ??
-                                        "NA",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headlineMedium
-                                            ?.copyWith(
-                                            color: Colors.white)),
-                                  ],
-                                ),
+                              child: StatBox(
+                                icon: "assets/icons/star_ic.png",
+                                value: movie.data?.movie?.rating.toString(),
+                                context: context,
                               ),
                             ),
                           ],
                         ),
                       ),
-
                     ],
                   ),
                 ),
-                SliverToBoxAdapter(child: SizedBox(height: 16.h,),),
-                //Screen Shots section
+                SliverToBoxAdapter(child: SizedBox(height: 16.h)),
+                // Screen Shots
                 SliverToBoxAdapter(
                   child: Column(
-                    crossAxisAlignment:
-                    CrossAxisAlignment.stretch,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     spacing: 16.h,
                     children: [
                       Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 16.w),
-                        child: Text("Screen Shots",
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineMedium
-                                ?.copyWith(color: Colors.white)),
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        child: Text(
+                          "Screen Shots",
+                          style: Theme.of(context).textTheme.headlineMedium
+                              ?.copyWith(color: Colors.white),
+                        ),
                       ),
                       ListView.separated(
                         shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        padding:
-                        EdgeInsets.symmetric(horizontal: 16.w),
+                        physics: const NeverScrollableScrollPhysics(),
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
                         itemBuilder: (context, index) {
+                          final screenshotUrl =
+                              (screenshots[index] != null &&
+                                  screenshots[index]!.isNotEmpty)
+                              ? screenshots[index]!
+                              : "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png";
+
                           return ClipRRect(
-                            borderRadius:
-                            BorderRadius.circular(16.r),
+                            borderRadius: BorderRadius.circular(16.r),
                             child: Image.network(
-                              screenshots[index] ?? "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png",
+                              screenshotUrl,
                               fit: BoxFit.cover,
                               height: 167.h,
+                              errorBuilder: (context, error, stackTrace) {
+                                return Image.network(
+                                  "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png",
+                                  fit: BoxFit.cover,
+                                  height: 167.h,
+                                );
+                              },
                             ),
                           );
                         },
@@ -330,7 +269,8 @@ class MovieDetailsScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                // Similar Movies section
+                SliverToBoxAdapter(child: SizedBox(height: 16.h)),
+                // Similar Movies
                 SliverToBoxAdapter(
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: 16.h),
@@ -342,9 +282,7 @@ class MovieDetailsScreen extends StatelessWidget {
                             padding: EdgeInsets.symmetric(horizontal: 16.w),
                             child: Text(
                               "No similar movies available",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headlineMedium
+                              style: Theme.of(context).textTheme.headlineMedium
                                   ?.copyWith(color: Colors.white),
                             ),
                           ),
@@ -353,9 +291,7 @@ class MovieDetailsScreen extends StatelessWidget {
                             padding: EdgeInsets.symmetric(horizontal: 16.w),
                             child: Text(
                               "Similar",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headlineMedium
+                              style: Theme.of(context).textTheme.headlineMedium
                                   ?.copyWith(color: Colors.white),
                             ),
                           ),
@@ -365,12 +301,12 @@ class MovieDetailsScreen extends StatelessWidget {
                             physics: const NeverScrollableScrollPhysics(),
                             padding: EdgeInsets.symmetric(horizontal: 16.w),
                             gridDelegate:
-                            SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              mainAxisSpacing: 16.h,
-                              crossAxisSpacing: 16.w,
-                              childAspectRatio: 0.7,
-                            ),
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  mainAxisSpacing: 16.h,
+                                  crossAxisSpacing: 16.w,
+                                  childAspectRatio: 0.7,
+                                ),
                             itemBuilder: (context, index) {
                               return SimilarMovieItem(
                                 movie: similarMovies[index],
@@ -378,15 +314,225 @@ class MovieDetailsScreen extends StatelessWidget {
                             },
                             itemCount: similarMovies.length,
                           ),
-                        ]
+                        ],
                       ],
                     ),
                   ),
                 ),
+                SliverToBoxAdapter(child: SizedBox(height: 16.h)),
+                // Summary
+                if (movie.data!.movie!.descriptionFull!.isNotEmpty) ...[
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        spacing: 16.h,
+                        children: [
+                          Text(
+                            "Summary",
+                            style: Theme.of(context).textTheme.headlineMedium
+                                ?.copyWith(color: Colors.white),
+                          ),
+                          Text(
+                            movie.data?.movie?.descriptionFull ?? "",
+                            style: Theme.of(context).textTheme.displayMedium!
+                                .copyWith(fontSize: 16.sp),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SliverToBoxAdapter(child: SizedBox(height: 16.h)),
+                ],
+                // Cast
+                SliverToBoxAdapter(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    spacing: 16.h,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        child: Text(
+                          "Cast",
+                          style: Theme.of(context).textTheme.headlineMedium
+                              ?.copyWith(color: Colors.white),
+                        ),
+                      ),
+                      ListView.separated(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        itemBuilder: (context, index) {
+                          return Container(
+                            alignment: Alignment.center,
+                            padding: EdgeInsets.symmetric(
+                              vertical: 8.h,
+                              horizontal: 8.w,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.secondary,
+                              borderRadius: BorderRadius.circular(12.r),
+                            ),
+                            child: Row(
+                              spacing: 8.w,
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(8.r),
+                                  child: Image.network(
+                                    (castImg[index] != null &&
+                                            castImg[index]!.isNotEmpty)
+                                        ? castImg[index]!
+                                        : "https://placehold.co/100x100.png",
+                                    width: 70.w,
+                                    height: 70.h,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return Image.network(
+                                        "https://placehold.co/70*70.png",
+                                        width: 70.w,
+                                        height: 70.h,
+                                        fit: BoxFit.cover,
+                                      );
+                                    },
+                                  ),
+                                ),
+
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    SizedBox(
+                                      width:
+                                          MediaQuery.of(context).size.width *
+                                          0.6,
+                                      child: Text(
+                                        "Name : ${castNames[index]}",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headlineSmall
+                                            ?.copyWith(
+                                              fontWeight: FontWeight.w900,
+                                            ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width:
+                                          MediaQuery.of(context).size.width *
+                                          0.6,
+                                      child: Text(
+                                        "Character : ${castCharacters[index]}",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headlineSmall
+                                            ?.copyWith(
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                        separatorBuilder: (context, index) =>
+                            SizedBox(height: 16.h),
+                        itemCount: castNames.length,
+                      ),
+                    ],
+                  ),
+                ),
+                SliverToBoxAdapter(child: SizedBox(height: 16.h)),
+                //genres
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+                    child: Column(
+                      spacing: 16.h,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Text(
+                          "Genres",
+                          style: Theme.of(context).textTheme.headlineMedium,
+                        ),
+                        GridView.builder(
+                          shrinkWrap: true,
+                          padding: EdgeInsets.zero,
+                          physics: NeverScrollableScrollPhysics(),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                mainAxisSpacing: 16.h,
+                                crossAxisSpacing: 16.w,
+                                childAspectRatio: 10 / 4,
+                              ),
+                          itemCount: genres.length,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).colorScheme.secondary,
+                                borderRadius: BorderRadius.circular(16.r),
+                              ),
+                              child: Text(
+                                genres[index] ?? "",
+                                style: Theme.of(context).textTheme.headlineSmall
+                                    ?.copyWith(fontWeight: FontWeight.w900),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SliverToBoxAdapter(child: SizedBox(height: 32.h)),
               ],
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+class StatBox extends StatelessWidget {
+  final String icon;
+  final String? value;
+  final BuildContext context;
+
+  const StatBox({
+    required this.icon,
+    required this.value,
+    required this.context,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 22.w),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.secondary,
+        borderRadius: BorderRadius.circular(16.r),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          ImageIcon(
+            AssetImage(icon),
+            color: Theme.of(context).colorScheme.primary,
+            size: 28.sp,
+          ),
+          Text(
+            value ?? "NA",
+            style: Theme.of(
+              context,
+            ).textTheme.headlineMedium?.copyWith(color: Colors.white),
+          ),
+        ],
       ),
     );
   }

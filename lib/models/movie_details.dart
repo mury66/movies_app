@@ -74,6 +74,7 @@ class Movie {
   String? largeScreenshotImage1;
   String? largeScreenshotImage2;
   String? largeScreenshotImage3;
+  List<Cast>? cast;
   List<Torrents>? torrents;
   String? dateUploaded;
   int? dateUploadedUnix;
@@ -107,6 +108,7 @@ class Movie {
         this.largeScreenshotImage1,
         this.largeScreenshotImage2,
         this.largeScreenshotImage3,
+        this.cast,
         this.torrents,
         this.dateUploaded,
         this.dateUploadedUnix});
@@ -140,6 +142,12 @@ class Movie {
     largeScreenshotImage1 = json['large_screenshot_image1'];
     largeScreenshotImage2 = json['large_screenshot_image2'];
     largeScreenshotImage3 = json['large_screenshot_image3'];
+    if (json['cast'] != null) {
+      cast = <Cast>[];
+      json['cast'].forEach((v) {
+        cast!.add(new Cast.fromJson(v));
+      });
+    }
     if (json['torrents'] != null) {
       torrents = <Torrents>[];
       json['torrents'].forEach((v) {
@@ -180,11 +188,39 @@ class Movie {
     data['large_screenshot_image1'] = this.largeScreenshotImage1;
     data['large_screenshot_image2'] = this.largeScreenshotImage2;
     data['large_screenshot_image3'] = this.largeScreenshotImage3;
+    if (this.cast != null) {
+      data['cast'] = this.cast!.map((v) => v.toJson()).toList();
+    }
     if (this.torrents != null) {
       data['torrents'] = this.torrents!.map((v) => v.toJson()).toList();
     }
     data['date_uploaded'] = this.dateUploaded;
     data['date_uploaded_unix'] = this.dateUploadedUnix;
+    return data;
+  }
+}
+
+class Cast {
+  String? name;
+  String? characterName;
+  String? urlSmallImage;
+  String? imdbCode;
+
+  Cast({this.name, this.characterName, this.urlSmallImage, this.imdbCode});
+
+  Cast.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    characterName = json['character_name'];
+    urlSmallImage = json['url_small_image'];
+    imdbCode = json['imdb_code'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['name'] = this.name;
+    data['character_name'] = this.characterName;
+    data['url_small_image'] = this.urlSmallImage;
+    data['imdb_code'] = this.imdbCode;
     return data;
   }
 }
