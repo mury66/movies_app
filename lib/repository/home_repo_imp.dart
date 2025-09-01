@@ -42,7 +42,6 @@ class HomeRepoImpelementation implements HomeRepo {
     }
   }
 
-  // ===> new: searchMovies
   @override
   Future<MoviesModel> searchMovies(String query, {int limit = 20}) async {
     try {
@@ -58,6 +57,7 @@ class HomeRepoImpelementation implements HomeRepo {
       MoviesModel result = MoviesModel.fromJson(response.data);
       return result;
     } catch (e) {
+      print("$e");
       rethrow;
     }
   }
@@ -74,14 +74,16 @@ class HomeRepoImpelementation implements HomeRepo {
         },
       );
       MovieDetailsModel result = MovieDetailsModel.fromJson(response.data);
+      print("sucess zebymanga");
       return result;
     } catch (e) {
+      print("errooooooooooooooossksnskndsknskkdnoooooor $e");
       rethrow;
     }
   }
 
   @override
-  Future<SuggestedMoviesModel> getSimilarMovie(movieId) async {
+  Future<SuggestedMoviesModel> getSimilarMovie(int movieId) async {
     try {
       var response = await apiManager.getApi(
         endPoint: ApiUrls.movieSuggestionsEndpoint,

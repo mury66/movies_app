@@ -11,9 +11,7 @@ import 'movie_details_states.dart';
 class MovieDetailsCubit extends Cubit<MovieDetailsStates>{
   HomeRepo homeRepo;
   MovieDetailsCubit(this.homeRepo) : super(MovieDetailsInitialState());
-
   MovieDetailsModel? movieDetailsResponse;
-
   SuggestedMoviesModel? similarMoviesResponse;
 
   void getMovieDetails({required int movieId}) async{
