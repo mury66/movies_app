@@ -39,7 +39,7 @@ class MovieDetailsCubit extends Cubit<MovieDetailsStates>{
   }
 
   void addToHistory() {
-    FirebaseManager.addToHistory(movieDetailsResponse?.data?.movie?.id??0);
+    FirebaseManager.addToHistory(movieDetailsResponse?.data?.movie?.id??5555);
     emit(MovieDetailsAddToHistoryState());
   }
 

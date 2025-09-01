@@ -6,6 +6,7 @@ import '../../bloc/movie_details_cubit/movie_details_cubit.dart';
 import '../../bloc/movie_details_cubit/movie_details_states.dart';
 import '../../models/movie_details.dart';
 import '../../models/movies_suggestions.dart';
+import '../../widgets/loader_with_timeout.dart';
 import '../../widgets/similar_movie_item.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -56,19 +57,17 @@ class MovieDetailsScreen extends StatelessWidget {
           }
           if (state is MovieDetailsGetErrorState) {
             return Scaffold(
-              body: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("No Data"),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Text("Back To Home"),
-                    ),
-                  ],
-                ),
+              body: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Error occurred while fetching movie details"),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text("Back To Home"),
+                  ),
+                ],
               ),
             );
           }
@@ -76,17 +75,7 @@ class MovieDetailsScreen extends StatelessWidget {
           if (movie == null) {
             return Scaffold(
               body: Center(
-                child: Column(
-                  children: [
-                    Text("No Data"),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Text("Back"),
-                    ),
-                  ],
-                ),
+                child: LoaderWithTimeout(),
               ),
             );
           }
