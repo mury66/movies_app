@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:movies_app/models/movie_details.dart';
 
 import '../models/movies_model.dart';
 import '../screens/movie_details/movie_details_screen.dart';
@@ -18,7 +17,7 @@ class MovieListItem extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => MovieDetailsScreen(movieId: movie?.id ?? 0),
+            builder: (context) => MovieDetailsScreen(movieId: movie.id ?? 0),
           ),
         );
       },
@@ -48,7 +47,7 @@ class MovieListItem extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  movie.rating.toString(),
+                  movie?.rating?.toString() ?? "NA",
                   style: Theme.of(
                     context,
                   ).textTheme.headlineSmall!.copyWith(fontSize: 16.sp),

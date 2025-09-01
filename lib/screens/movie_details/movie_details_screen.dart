@@ -10,7 +10,7 @@ import '../../widgets/similar_movie_item.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MovieDetailsScreen extends StatelessWidget {
-  final movieId;
+  final int movieId;
   const MovieDetailsScreen({super.key, required this.movieId});
 
   @override
@@ -22,6 +22,7 @@ class MovieDetailsScreen extends StatelessWidget {
         ..getSimilarMovies(movieId: movieId),
       child: BlocBuilder<MovieDetailsCubit, MovieDetailsStates>(
         builder: (context, state) {
+          print("--------------------------- id :$movieId --------------------");
           final cubit = context.read<MovieDetailsCubit>();
           final MovieDetailsModel? movie = cubit.movieDetailsResponse;
           List<String?> screenshots = [
@@ -52,11 +53,11 @@ class MovieDetailsScreen extends StatelessWidget {
               body: Center(child: const CircularProgressIndicator()),
             );
           }
-          if (state is MovieDetailsGetErrorState ||
-              state is MovieDetailsGetSimilarErrorState) {
+          if (state is MovieDetailsGetErrorState) {
             return Scaffold(
               body: Center(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text("No Data"),
                     TextButton(
@@ -72,17 +73,19 @@ class MovieDetailsScreen extends StatelessWidget {
           }
 
           if (movie == null) {
-            return Center(
-              child: Column(
-                children: [
-                  Text("No Data"),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Text("Back To Home"),
-                  ),
-                ],
+            return Scaffold(
+              body: Center(
+                child: Column(
+                  children: [
+                    Text("No Data"),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text("Back"),
+                    ),
+                  ],
+                ),
               ),
             );
           }
