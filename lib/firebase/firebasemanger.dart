@@ -170,4 +170,49 @@ class Firebasemanger {
       onError("Error: $e");
     }
   }
+<<<<<<< HEAD
+=======
+
+  static Future<void> addToWatchLater(int movieId) async
+  {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc("7tCHiqI4tMRJxj4qNZcQFwU9dWh2")
+        .update({
+      "watchLater": FieldValue.arrayUnion([movieId])
+    });
+  }
+
+  static Future<void> removeFromWatchLater(int movieId) async
+  {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc("7tCHiqI4tMRJxj4qNZcQFwU9dWh2")
+        .update({
+      "watchLater": FieldValue.arrayRemove([movieId])
+    });
+  }
+
+
+  static Future<void> addToHistory(int movieId) async
+  {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc("7tCHiqI4tMRJxj4qNZcQFwU9dWh2")
+        .update({
+      "history": FieldValue.arrayUnion([movieId])
+    });
+  }
+
+  static Future<void> removeFromHistory(int movieId) async
+  {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc("7tCHiqI4tMRJxj4qNZcQFwU9dWh2")
+        .update({
+      "history": FieldValue.arrayUnion([movieId])
+    });
+  }
+
+>>>>>>> e9c28b0 (no message)
 }
