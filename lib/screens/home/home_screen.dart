@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies_app/bloc/profile_tab_cubit/profile_cubit.dart';
 import 'package:movies_app/repository/home_repo.dart';
 import 'package:movies_app/repository/home_repo_imp.dart';
 import '../../bloc/app_cubit/app_cubit.dart';
@@ -19,9 +20,18 @@ class HomeScreen extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => AppCubit()),
-        BlocProvider(create: (context) => HomeCubit(repo)..getMovies()..getAllCategoriesMovies()),
-        BlocProvider(create: (context) => ExploreCubit(repo)..getCurrentCategoryMovie()),
-        BlocProvider(create: (context) => SearchCubit(repo)..getInitialMovies()),
+        BlocProvider(
+          create: (context) => HomeCubit(repo)
+            ..getMovies()
+            ..getAllCategoriesMovies(),
+        ),
+        BlocProvider(
+          create: (context) => ExploreCubit(repo)..getCurrentCategoryMovie(),
+        ),
+        BlocProvider(
+          create: (context) => SearchCubit(repo)..getInitialMovies(),
+        ),
+        BlocProvider(create: (context) => ProfileCubit()),
       ],
       child: BlocBuilder<AppCubit, AppStates>(
         builder: (BuildContext context, state) {
@@ -29,14 +39,12 @@ class HomeScreen extends StatelessWidget {
           return Scaffold(
             bottomNavigationBar: BottomNavBar(),
             body: IndexedStack(
-                index: cubit.currentTab,
-                children: cubit.screens
+              index: cubit.currentTab,
+              children: cubit.screens,
             ),
           );
         },
       ),
     );
   }
-
-
 }

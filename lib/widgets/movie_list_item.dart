@@ -18,10 +18,9 @@ class MovieListItem extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => MovieDetailsScreen(movieId:movie.id??0),
+            builder: (context) => MovieDetailsScreen(movieId: movie?.id ?? 0),
           ),
         );
-
       },
 
       child: Stack(
@@ -31,28 +30,37 @@ class MovieListItem extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12.r),
               image: DecorationImage(
-                image: NetworkImage(movie?.mediumCoverImage ??"https://via.placeholder.com/150"),
+                image: NetworkImage(
+                  movie?.mediumCoverImage ?? "https://via.placeholder.com/150",
+                ),
                 fit: BoxFit.cover,
               ),
             ),
           ),
           Container(
-              margin: EdgeInsets.only(top : 12.w , left:10.h),
-              padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.secondary.withAlpha(80),
-                borderRadius: BorderRadius.circular(10.r),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(movie?.rating?.toString() ?? "NA",style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                    fontSize: 16.sp,
-                  ),),
-                  Icon(Icons.star, color: Theme.of(context).colorScheme.primary, size: 16.sp,)
-                ],
-              )
-          )
+            margin: EdgeInsets.only(top: 12.w, left: 10.h),
+            padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.secondary.withAlpha(80),
+              borderRadius: BorderRadius.circular(10.r),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  movie.rating.toString(),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.headlineSmall!.copyWith(fontSize: 16.sp),
+                ),
+                Icon(
+                  Icons.star,
+                  color: Theme.of(context).colorScheme.primary,
+                  size: 16.sp,
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
