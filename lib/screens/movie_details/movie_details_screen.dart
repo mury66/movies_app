@@ -10,6 +10,8 @@ import '../../widgets/loader_with_timeout.dart';
 import '../../widgets/similar_movie_item.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../widgets/torrent_button.dart';
+
 class MovieDetailsScreen extends StatelessWidget {
   final int movieId;
   const MovieDetailsScreen({super.key, required this.movieId});
@@ -184,16 +186,26 @@ class MovieDetailsScreen extends StatelessWidget {
                     children: [
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.red,
-                            side: BorderSide.none,
-                          ),
-                          child: Text(
-                            "Watch",
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              flex: 4,
+                              child: ElevatedButton(
+                                onPressed: () {},
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.red,
+                                  side: BorderSide.none,
+                                ),
+                                child: Text(
+                                  "Watch",
+                                  style: Theme.of(context).textTheme.titleMedium,
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 8.w),
+                            Expanded(
+                              child: TorrentButton(torrentUrl:  movie.data?.movie?.torrents?[0].url??""),),
+                          ],
                         ),
                       ),
                       Padding(

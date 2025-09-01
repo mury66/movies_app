@@ -23,6 +23,7 @@ dependencies:
   flutter_bloc: ^9.1.1
   dio: ^5.9.0
   talker_dio_logger: ^4.9.3
+  url_launcher: ^6.3.2
 
 dev_dependencies:
   flutter_test:
