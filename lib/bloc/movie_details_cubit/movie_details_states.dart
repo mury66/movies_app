@@ -9,3 +9,6 @@ class MovieDetailsGetErrorState extends MovieDetailsStates{}
 class MovieDetailsGetSimilarLoadingState extends MovieDetailsStates{}
 class MovieDetailsGetSimilarSuccessState extends MovieDetailsStates{}
 class MovieDetailsGetSimilarErrorState extends MovieDetailsStates{}
+
+class MovieDetailsWatchlistToggledState extends MovieDetailsStates{
+}

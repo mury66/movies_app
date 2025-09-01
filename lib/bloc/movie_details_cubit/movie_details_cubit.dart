@@ -2,6 +2,7 @@
 
 import 'package:bloc/bloc.dart';
 
+import '../../firebase/firebasemanger.dart';
 import '../../models/movie_details.dart';
 import '../../models/movies_suggestions.dart';
 import '../../repository/home_repo.dart';
@@ -11,6 +12,7 @@ import 'movie_details_states.dart';
 class MovieDetailsCubit extends Cubit<MovieDetailsStates>{
   HomeRepo homeRepo;
   MovieDetailsCubit(this.homeRepo) : super(MovieDetailsInitialState());
+  bool isSavedToWatchlist = false;
   MovieDetailsModel? movieDetailsResponse;
   SuggestedMoviesModel? similarMoviesResponse;
 
@@ -32,6 +34,12 @@ class MovieDetailsCubit extends Cubit<MovieDetailsStates>{
     }catch(e){
       emit(MovieDetailsGetSimilarErrorState());
     }
+  }
+
+  void toggleWatchlistStatus() {
+    isSavedToWatchlist = !isSavedToWatchlist;
+    isSavedToWatchlist ? FirebaseManager.addToWatchLater(movieDetailsResponse?.data?.movie?.id??0) : FirebaseManager.removeFromWatchLater(movieDetailsResponse?.data?.movie?.id??0);
+    emit(MovieDetailsWatchlistToggledState());
   }
 
 

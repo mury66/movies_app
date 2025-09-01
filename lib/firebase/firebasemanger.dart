@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import '../models/userdata.dart';
+import '../models/user_data.dart';
 
-class Firebasemanger {
+class FirebaseManager {
   static final FirebaseAuth _auth = FirebaseAuth.instance;
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -28,6 +28,8 @@ class Firebasemanger {
           name: name,
           email: email,
           phone: phone,
+          watchLater: [],
+          history: [],
         );
 
         await _firestore
@@ -125,6 +127,8 @@ class Firebasemanger {
             name: user.displayName ?? "",
             email: user.email ?? "",
             phone: user.phoneNumber ?? "",
+            watchLater: [],
+            history: [],
           );
           await _firestore
               .collection('users')
@@ -170,4 +174,26 @@ class Firebasemanger {
       onError("Error: $e");
     }
   }
+
+  static Future<void> addToWatchLater(int movieId) async
+  {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc("7tCHiqI4tMRJxj4qNZcQFwU9dWh2")
+        .update({
+      "watchLater": FieldValue.arrayUnion([movieId])
+    });
+  }
+
+  static Future<void> removeFromWatchLater(int movieId) async
+  {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc("7tCHiqI4tMRJxj4qNZcQFwU9dWh2")
+        .update({
+      "watchLater": FieldValue.arrayRemove([movieId])
+    });
+  }
+
+
 }

@@ -120,7 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                         setState(() => isLoading = true);
 
-                        await Firebasemanger.login(
+                        await FirebaseManager.login(
                           email: emailController.text,
                           password: passwordController.text,
                           onSuccess: () {
@@ -232,7 +232,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       onPressed: () async {
                         setState(() => isLoading = true);
 
-                        await Firebasemanger.signInWithGoogle(
+                        await FirebaseManager.signInWithGoogle(
                           onSuccess: () {
                             setState(() => isLoading = false);
                             Navigator.pushNamedAndRemoveUntil(
@@ -261,7 +261,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               btnCancelOnPress: () {},
                               btnOkOnPress: () {},
-                            )..show();
+                            ).show();
                           },
                         );
                       },

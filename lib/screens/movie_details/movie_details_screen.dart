@@ -172,12 +172,12 @@ class MovieDetailsScreen extends StatelessWidget {
                               },
                             ),
                             IconButton(
-                              icon: const ImageIcon(
-                                AssetImage("assets/icons/save_ic.png"),
-                                color: Colors.white,
+                              icon: ImageIcon(
+                                const AssetImage("assets/icons/save_ic.png"),
+                                color: cubit.isSavedToWatchlist ? Theme.of(context).colorScheme.primary : Colors.white,
                               ),
                               onPressed: () {
-                                Navigator.of(context).pop();
+                                cubit.toggleWatchlistStatus();
                               },
                             ),
                           ],

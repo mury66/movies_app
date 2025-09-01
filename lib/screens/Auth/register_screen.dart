@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movies_app/firebase/firebasemanger.dart';
-import 'package:movies_app/models/userdata.dart';
+import 'package:movies_app/models/user_data.dart';
 import 'package:movies_app/screens/Auth/login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -194,7 +194,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           if (formkey.currentState!.validate()) {
                             setState(() => isLoading = true);
 
-                            await Firebasemanger.signUp(
+                            await FirebaseManager.signUp(
                               name: nameController.text,
                               email: emailController.text,
                               phone: phoneController.text,
