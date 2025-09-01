@@ -196,4 +196,24 @@ class FirebaseManager {
   }
 
 
+  static Future<void> addToHistory(int movieId) async
+  {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc("7tCHiqI4tMRJxj4qNZcQFwU9dWh2")
+        .update({
+      "history": FieldValue.arrayUnion([movieId])
+    });
+  }
+
+  static Future<void> removeFromHistory(int movieId) async
+  {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc("7tCHiqI4tMRJxj4qNZcQFwU9dWh2")
+        .update({
+      "history": FieldValue.arrayUnion([movieId])
+    });
+  }
+
 }

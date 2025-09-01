@@ -1,12 +1,8 @@
-
-
 import 'package:bloc/bloc.dart';
-
 import '../../firebase/firebasemanger.dart';
 import '../../models/movie_details.dart';
 import '../../models/movies_suggestions.dart';
 import '../../repository/home_repo.dart';
-import '../explore_tab_cubit/explore_states.dart';
 import 'movie_details_states.dart';
 
 class MovieDetailsCubit extends Cubit<MovieDetailsStates>{
@@ -40,6 +36,11 @@ class MovieDetailsCubit extends Cubit<MovieDetailsStates>{
     isSavedToWatchlist = !isSavedToWatchlist;
     isSavedToWatchlist ? FirebaseManager.addToWatchLater(movieDetailsResponse?.data?.movie?.id??0) : FirebaseManager.removeFromWatchLater(movieDetailsResponse?.data?.movie?.id??0);
     emit(MovieDetailsWatchlistToggledState());
+  }
+
+  void addToHistory() {
+    FirebaseManager.addToHistory(movieDetailsResponse?.data?.movie?.id??0);
+    emit(MovieDetailsAddToHistoryState());
   }
 
 
