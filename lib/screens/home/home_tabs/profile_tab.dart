@@ -5,8 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:movies_app/bloc/profile_tab_cubit/profile_cubit.dart';
 import 'package:movies_app/bloc/profile_tab_cubit/profile_states.dart';
 import 'package:movies_app/screens/home/update_profile/update_profile.dart';
-import 'package:movies_app/widgets/stat_profile';
 import 'package:movies_app/screens/Auth/login_screen.dart';
+
+import '../../../widgets/profile_stat_box.dart';
 
 class ProfileTab extends StatelessWidget {
   static const routeName = "/profile";
