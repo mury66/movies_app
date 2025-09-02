@@ -12,6 +12,7 @@ class FirebaseManager {
     required String password,
     required String name,
     required String phone,
+    String avatar = "",
     required Function onSuccess,
     required Function(String) onError,
   }) async {
@@ -28,6 +29,7 @@ class FirebaseManager {
           name: name,
           email: email,
           phone: phone,
+          avatar: avatar,
           watchLater: [],
           history: [],
         );
@@ -127,6 +129,7 @@ class FirebaseManager {
             name: user.displayName ?? "",
             email: user.email ?? "",
             phone: user.phoneNumber ?? "",
+            avatar: user.photoURL ?? "",
             watchLater: [],
             history: [],
           );
@@ -151,7 +154,7 @@ class FirebaseManager {
     required Function onSuccess,
   }) async {
     try {
-      final userSnapshot = await FirebaseFirestore.instance
+      final userSnapshot = await _firestore
           .collection('users')
           .where('email', isEqualTo: email)
           .limit(1)
@@ -175,45 +178,73 @@ class FirebaseManager {
     }
   }
 
-  static Future<void> addToWatchLater(int movieId) async
-  {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc("7tCHiqI4tMRJxj4qNZcQFwU9dWh2")
-        .update({
-      "watchLater": FieldValue.arrayUnion([movieId])
+  static User? get currentUser => _auth.currentUser;
+
+  static Future<Userdata?> getUserData() async {
+    final user = _auth.currentUser;
+    if (user == null) return null;
+
+    final doc = await _firestore.collection('users').doc(user.uid).get();
+    if (doc.exists) {
+      return Userdata.fromJson(doc.data()!);
+    }
+    return null;
+  }
+
+  static Future<void> updateUserData({
+    required String name,
+    required String phone,
+    String? avatar,
+    required Function onSuccess,
+    required Function(String) onError,
+  }) async {
+    final user = _auth.currentUser;
+    if (user == null) {
+      onError("No logged in user.");
+      return;
+    }
+
+    try {
+      await _firestore.collection('users').doc(user.uid).update({
+        "name": name,
+        "phone": phone,
+        if (avatar != null) "avatar": avatar,
+      });
+      onSuccess();
+    } catch (e) {
+      onError(e.toString());
+    }
+  }
+
+  static Future<void> addToWatchLater(int movieId) async {
+    final uid = _auth.currentUser?.uid;
+    if (uid == null) return;
+    await _firestore.collection('users').doc(uid).update({
+      "watchLater": FieldValue.arrayUnion([movieId]),
     });
   }
 
-  static Future<void> removeFromWatchLater(int movieId) async
-  {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc("7tCHiqI4tMRJxj4qNZcQFwU9dWh2")
-        .update({
-      "watchLater": FieldValue.arrayRemove([movieId])
+  static Future<void> removeFromWatchLater(int movieId) async {
+    final uid = _auth.currentUser?.uid;
+    if (uid == null) return;
+    await _firestore.collection('users').doc(uid).update({
+      "watchLater": FieldValue.arrayRemove([movieId]),
     });
   }
 
-
-  static Future<void> addToHistory(int movieId) async
-  {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc("7tCHiqI4tMRJxj4qNZcQFwU9dWh2")
-        .update({
-      "history": FieldValue.arrayUnion([movieId])
+  static Future<void> addToHistory(int movieId) async {
+    final uid = _auth.currentUser?.uid;
+    if (uid == null) return;
+    await _firestore.collection('users').doc(uid).update({
+      "history": FieldValue.arrayUnion([movieId]),
     });
   }
 
-  static Future<void> removeFromHistory(int movieId) async
-  {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc("7tCHiqI4tMRJxj4qNZcQFwU9dWh2")
-        .update({
-      "history": FieldValue.arrayUnion([movieId])
+  static Future<void> removeFromHistory(int movieId) async {
+    final uid = _auth.currentUser?.uid;
+    if (uid == null) return;
+    await _firestore.collection('users').doc(uid).update({
+      "history": FieldValue.arrayRemove([movieId]),
     });
   }
-
 }

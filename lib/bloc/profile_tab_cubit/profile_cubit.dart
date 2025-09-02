@@ -1,26 +1,43 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'profile_states.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
-  ProfileCubit()
-    : super(
-        ProfileInitial(
-          name: "Ahmed Atef",
-          phone: "0100000000",
-          avatar: "assets/images/avatar1.png",
-        ),
-      ) {
-    _loadProfile();
+  ProfileCubit() : super(ProfileLoading(name: "", phone: "", avatar: "")) {
+    loadUserData();
   }
 
-  Future<void> _loadProfile() async {
-    final prefs = await SharedPreferences.getInstance();
-    final name = prefs.getString("name") ?? "Ahmed Atef";
-    final phone = prefs.getString("phone") ?? "0100000000";
-    final avatar = prefs.getString("avatar") ?? "assets/images/avatar1.png";
+  final _auth = FirebaseAuth.instance;
+  final _firestore = FirebaseFirestore.instance;
 
-    emit(ProfileInitial(name: name, phone: phone, avatar: avatar));
+  Future<void> loadUserData() async {
+    try {
+      final user = _auth.currentUser;
+      if (user == null) {
+        emit(ProfileLoggedOut());
+        return;
+      }
+
+      final snapshot = await _firestore.collection("users").doc(user.uid).get();
+
+      if (snapshot.exists) {
+        final data = snapshot.data()!;
+        emit(
+          ProfileInitial(
+            name: data["name"] ?? "",
+            phone: data["phone"] ?? "",
+            avatar: data["avatar"] ?? "assets/images/avatar1.png",
+          ),
+        );
+      } else {
+        emit(
+          ProfileError("No user data found", name: "", phone: "", avatar: ""),
+        );
+      }
+    } catch (e) {
+      emit(ProfileError(e.toString(), name: "", phone: "", avatar: ""));
+    }
   }
 
   Future<void> updateProfile(String name, String phone, String avatar) async {
@@ -31,14 +48,15 @@ class ProfileCubit extends Cubit<ProfileState> {
         avatar: state.avatar,
       ),
     );
-
     try {
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString("name", name);
-      await prefs.setString("phone", phone);
-      await prefs.setString("avatar", avatar);
+      final user = _auth.currentUser;
+      if (user == null) return;
 
-      await Future.delayed(const Duration(milliseconds: 500));
+      await _firestore.collection("users").doc(user.uid).update({
+        "name": name,
+        "phone": phone,
+        "avatar": avatar,
+      });
 
       emit(ProfileUpdated(name: name, phone: phone, avatar: avatar));
     } catch (e) {
@@ -54,47 +72,17 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   Future<void> logout() async {
-    emit(
-      ProfileLoading(
-        name: state.name,
-        phone: state.phone,
-        avatar: state.avatar,
-      ),
-    );
-
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setBool("isLoggedIn", false);
-
-      await Future.delayed(const Duration(milliseconds: 500));
-
-      emit(ProfileLoggedOut());
-    } catch (e) {
-      emit(
-        ProfileError(
-          e.toString(),
-          name: state.name,
-          phone: state.phone,
-          avatar: state.avatar,
-        ),
-      );
-    }
+    await _auth.signOut();
+    emit(ProfileLoggedOut());
   }
 
   Future<void> deleteAccount() async {
-    emit(
-      ProfileLoading(
-        name: state.name,
-        phone: state.phone,
-        avatar: state.avatar,
-      ),
-    );
-
     try {
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.clear();
+      final user = _auth.currentUser;
+      if (user == null) return;
 
-      await Future.delayed(const Duration(milliseconds: 500));
+      await _firestore.collection("users").doc(user.uid).delete();
+      await user.delete();
 
       emit(ProfileDeleted());
     } catch (e) {

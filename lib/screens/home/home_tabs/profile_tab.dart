@@ -57,8 +57,16 @@ class ProfileTab extends StatelessWidget {
                             children: [
                               CircleAvatar(
                                 radius: 60.r,
-                                backgroundImage: AssetImage(state.avatar),
+                                backgroundImage: state.avatar.isNotEmpty
+                                    ? (state.avatar.startsWith("assets/")
+                                          ? AssetImage(state.avatar)
+                                                as ImageProvider
+                                          : NetworkImage(state.avatar))
+                                    : const AssetImage(
+                                        "assets/images/profile.png",
+                                      ),
                               ),
+
                               SizedBox(width: 30.w),
                               const StatProfile(
                                 value: "12",
@@ -85,7 +93,6 @@ class ProfileTab extends StatelessWidget {
                               ),
                             ),
                           ),
-
                           SizedBox(height: 20.h),
                           Row(
                             children: [
