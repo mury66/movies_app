@@ -1,9 +1,10 @@
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import '../models/userdata.dart';
+import '../models/user_data.dart';
 
-class Firebasemanger {
+class FirebaseManager {
   static final FirebaseAuth _auth = FirebaseAuth.instance;
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -12,6 +13,7 @@ class Firebasemanger {
     required String password,
     required String name,
     required String phone,
+    required String avatarPath, // مسار الصورة من assets
     required Function onSuccess,
     required Function(String) onError,
   }) async {
@@ -23,18 +25,17 @@ class Firebasemanger {
 
       final user = credential.user;
       if (user != null) {
-        final userdata = Userdata(
-          id: user.uid,
-          name: name,
-          email: email,
-          phone: phone,
-        );
+        final userData = {
+          "id": user.uid,
+          "name": name,
+          "email": email,
+          "phone": phone,
+          "avatar": avatarPath,
+          "watchLater": [],
+          "history": [],
+        };
 
-        await _firestore
-            .collection('users')
-            .doc(user.uid)
-            .set(userdata.toJson());
-
+        await _firestore.collection('users').doc(user.uid).set(userData);
         onSuccess();
       } else {
         onError("User creation failed.");
@@ -52,6 +53,7 @@ class Firebasemanger {
     }
   }
 
+  // ======== LOGIN ========
   static Future<void> login({
     required String email,
     required String password,
@@ -91,6 +93,7 @@ class Firebasemanger {
     }
   }
 
+  // ======== GOOGLE SIGN IN ========
   static Future<void> signInWithGoogle({
     required Function onSuccess,
     required Function(String) onError,
@@ -100,7 +103,6 @@ class Firebasemanger {
       await googleSignIn.signOut();
 
       final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
-
       if (googleUser == null) {
         onError("Google sign in cancelled.");
         return;
@@ -108,7 +110,6 @@ class Firebasemanger {
 
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
-
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
@@ -125,13 +126,17 @@ class Firebasemanger {
             name: user.displayName ?? "",
             email: user.email ?? "",
             phone: user.phoneNumber ?? "",
+            watchLater: [],
+            history: [],
           );
-          await _firestore
-              .collection('users')
-              .doc(user.uid)
-              .set(userdata.toJson());
-        }
 
+          final dataMap = userdata.toJson();
+          if (user.photoURL != null) {
+            dataMap['imageUrl'] = user.photoURL!;
+          }
+
+          await _firestore.collection('users').doc(user.uid).set(dataMap);
+        }
         onSuccess();
       } else {
         onError("Google sign in failed.");
@@ -141,13 +146,14 @@ class Firebasemanger {
     }
   }
 
+  // ======== RESET PASSWORD ========
   static Future<void> resetPassword({
     required String email,
     required Function(String) onError,
     required Function onSuccess,
   }) async {
     try {
-      final userSnapshot = await FirebaseFirestore.instance
+      final userSnapshot = await _firestore
           .collection('users')
           .where('email', isEqualTo: email)
           .limit(1)
@@ -170,49 +176,42 @@ class Firebasemanger {
       onError("Error: $e");
     }
   }
-<<<<<<< HEAD
-=======
 
-  static Future<void> addToWatchLater(int movieId) async
-  {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc("7tCHiqI4tMRJxj4qNZcQFwU9dWh2")
-        .update({
-      "watchLater": FieldValue.arrayUnion([movieId])
+  // ======== Watch Later ========
+  static Future<void> addToWatchLater(int movieId) async {
+    final user = _auth.currentUser;
+    if (user == null) return;
+
+    await _firestore.collection('users').doc(user.uid).update({
+      "watchLater": FieldValue.arrayUnion([movieId]),
     });
   }
 
-  static Future<void> removeFromWatchLater(int movieId) async
-  {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc("7tCHiqI4tMRJxj4qNZcQFwU9dWh2")
-        .update({
-      "watchLater": FieldValue.arrayRemove([movieId])
+  static Future<void> removeFromWatchLater(int movieId) async {
+    final user = _auth.currentUser;
+    if (user == null) return;
+
+    await _firestore.collection('users').doc(user.uid).update({
+      "watchLater": FieldValue.arrayRemove([movieId]),
     });
   }
 
+  // ======== History ========
+  static Future<void> addToHistory(int movieId) async {
+    final user = _auth.currentUser;
+    if (user == null) return;
 
-  static Future<void> addToHistory(int movieId) async
-  {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc("7tCHiqI4tMRJxj4qNZcQFwU9dWh2")
-        .update({
-      "history": FieldValue.arrayUnion([movieId])
+    await _firestore.collection('users').doc(user.uid).update({
+      "history": FieldValue.arrayUnion([movieId]),
     });
   }
 
-  static Future<void> removeFromHistory(int movieId) async
-  {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc("7tCHiqI4tMRJxj4qNZcQFwU9dWh2")
-        .update({
-      "history": FieldValue.arrayUnion([movieId])
+  static Future<void> removeFromHistory(int movieId) async {
+    final user = _auth.currentUser;
+    if (user == null) return;
+
+    await _firestore.collection('users').doc(user.uid).update({
+      "history": FieldValue.arrayRemove([movieId]),
     });
   }
-
->>>>>>> e9c28b0 (no message)
 }

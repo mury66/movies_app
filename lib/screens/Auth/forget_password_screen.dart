@@ -30,7 +30,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
       return;
     }
 
-    await Firebasemanger.resetPassword(
+    await FirebaseManager.resetPassword(
       email: email,
       onSuccess: () {
         AwesomeDialog(

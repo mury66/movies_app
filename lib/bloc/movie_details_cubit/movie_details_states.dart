@@ -1,20 +1,19 @@
-abstract class MovieDetailsStates{}
+abstract class MovieDetailsStates {}
 
-class MovieDetailsInitialState extends MovieDetailsStates{}
+class MovieDetailsInitialState extends MovieDetailsStates {}
 
-class MovieDetailsGetLoadingState extends MovieDetailsStates{}
-class MovieDetailsGetSuccessState extends MovieDetailsStates{}
-class MovieDetailsGetErrorState extends MovieDetailsStates{}
+class MovieDetailsGetLoadingState extends MovieDetailsStates {}
 
-class MovieDetailsGetSimilarLoadingState extends MovieDetailsStates{}
-class MovieDetailsGetSimilarSuccessState extends MovieDetailsStates{}
-class MovieDetailsGetSimilarErrorState extends MovieDetailsStates{}
-<<<<<<< HEAD
-=======
+class MovieDetailsGetSuccessState extends MovieDetailsStates {}
 
-class MovieDetailsWatchlistToggledState extends MovieDetailsStates{}
+class MovieDetailsGetErrorState extends MovieDetailsStates {}
 
-class MovieDetailsAddToHistoryState extends MovieDetailsStates{}
+class MovieDetailsGetSimilarLoadingState extends MovieDetailsStates {}
 
+class MovieDetailsGetSimilarSuccessState extends MovieDetailsStates {}
 
->>>>>>> e9c28b0 (no message)
+class MovieDetailsGetSimilarErrorState extends MovieDetailsStates {}
+
+class MovieDetailsWatchlistToggledState extends MovieDetailsStates {}
+
+class MovieDetailsAddToHistoryState extends MovieDetailsStates {}
