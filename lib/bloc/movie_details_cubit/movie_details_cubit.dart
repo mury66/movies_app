@@ -16,6 +16,7 @@ class MovieDetailsCubit extends Cubit<MovieDetailsStates>{
     emit(MovieDetailsGetLoadingState());
     try{
       movieDetailsResponse = await homeRepo.getMovieDetails(movieId);
+      addToHistory();
       emit(MovieDetailsGetSuccessState());
     }catch(e){
       emit(MovieDetailsGetErrorState());
