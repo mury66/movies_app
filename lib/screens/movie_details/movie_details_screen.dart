@@ -22,8 +22,7 @@ class MovieDetailsScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => MovieDetailsCubit(repo)
         ..getMovieDetails(movieId: movieId)
-        ..getSimilarMovies(movieId: movieId)
-        ..addToHistory(),
+        ..getSimilarMovies(movieId: movieId),
       child: BlocBuilder<MovieDetailsCubit, MovieDetailsStates>(
         builder: (context, state) {
           print("--------------------------- id :$movieId --------------------");
