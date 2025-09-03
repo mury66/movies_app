@@ -3,9 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:movies_app/firebase/firebasemanger.dart';
-import 'package:movies_app/models/userdata.dart';
 import 'package:movies_app/screens/Auth/login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -23,6 +21,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
     "assets/images/avatar1.png",
     "assets/images/avatar2.png",
     "assets/images/avatar3.png",
+    "assets/images/avatar4.png",
+    "assets/images/avatar5.png",
+    "assets/images/avatar6.png",
+    "assets/images/avatar7.png",
+    "assets/images/avatar8.png",
+    "assets/images/avatar9.png",
   ];
 
   var nameController = TextEditingController();
@@ -194,11 +198,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           if (formkey.currentState!.validate()) {
                             setState(() => isLoading = true);
 
-                            await Firebasemanger.signUp(
+                            await FirebaseManager.signUp(
                               name: nameController.text,
                               email: emailController.text,
                               phone: phoneController.text,
                               password: passwordController.text,
+                              avatar: avatars[selectedAvatar],
                               onError: (value) {
                                 setState(() => isLoading = false);
                                 AwesomeDialog(
