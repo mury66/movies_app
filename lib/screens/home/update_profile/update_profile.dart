@@ -84,7 +84,18 @@ class _UpdateProfileState extends State<UpdateProfile> {
           _showLoading(context);
         } else if (state is ProfileUpdated) {
           Navigator.pop(context);
-          Navigator.pop(context);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Theme.of(context).colorScheme.secondary,
+              content: Text(
+                "Profile updated successfully",
+                style: GoogleFonts.roboto(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
+            ),
+          );
         } else if (state is ProfileDeleted) {
           Navigator.pop(context);
           Navigator.pushNamedAndRemoveUntil(

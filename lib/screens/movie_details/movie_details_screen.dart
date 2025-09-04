@@ -9,7 +9,6 @@ import '../../models/movies_suggestions.dart';
 import '../../widgets/loader_with_timeout.dart';
 import '../../widgets/similar_movie_item.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../widgets/torrent_button.dart';
 
 class MovieDetailsScreen extends StatelessWidget {
@@ -25,9 +24,20 @@ class MovieDetailsScreen extends StatelessWidget {
         ..getSimilarMovies(movieId: movieId),
       child: BlocBuilder<MovieDetailsCubit, MovieDetailsStates>(
         builder: (context, state) {
-          print("--------------------------- id :$movieId --------------------");
           final cubit = context.read<MovieDetailsCubit>();
           final MovieDetailsModel? movie = cubit.movieDetailsResponse;
+          final List<Movies>? similarMovies =
+              cubit.similarMoviesResponse?.data?.movies;
+
+          print(
+            "--------------------------- id :$movieId --------------------",
+          );
+
+          if (state is MovieDetailsGetSuccessState &&
+              movie?.data?.movie?.id != null) {
+            cubit.addToHistory();
+          }
+
           List<String?> screenshots = [
             movie?.data?.movie?.mediumScreenshotImage1,
             movie?.data?.movie?.mediumScreenshotImage2,
@@ -47,13 +57,11 @@ class MovieDetailsScreen extends StatelessWidget {
           List<String?> genres = [
             for (var genre in movie?.data?.movie?.genres ?? []) genre,
           ];
-          final List<Movies>? similarMovies =
-              cubit.similarMoviesResponse?.data?.movies;
 
           if (state is MovieDetailsGetLoadingState ||
               state is MovieDetailsGetSimilarLoadingState) {
-            return Scaffold(
-              body: Center(child: const CircularProgressIndicator()),
+            return const Scaffold(
+              body: Center(child: CircularProgressIndicator()),
             );
           }
           if (state is MovieDetailsGetErrorState) {
@@ -61,12 +69,12 @@ class MovieDetailsScreen extends StatelessWidget {
               body: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Error occurred while fetching movie details"),
+                  const Text("Error occurred while fetching movie details"),
                   TextButton(
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    child: Text("Back To Home"),
+                    child: const Text("Back To Home"),
                   ),
                 ],
               ),
@@ -74,11 +82,7 @@ class MovieDetailsScreen extends StatelessWidget {
           }
 
           if (movie == null) {
-            return Scaffold(
-              body: Center(
-                child: LoaderWithTimeout(),
-              ),
-            );
+            return const Scaffold(body: Center(child: LoaderWithTimeout()));
           }
 
           return Scaffold(
@@ -165,7 +169,9 @@ class MovieDetailsScreen extends StatelessWidget {
                             IconButton(
                               icon: ImageIcon(
                                 const AssetImage("assets/icons/save_ic.png"),
-                                color: cubit.isSavedToWatchlist ? Theme.of(context).colorScheme.primary : Colors.white,
+                                color: cubit.isSavedToWatchlist
+                                    ? Theme.of(context).colorScheme.primary
+                                    : Colors.white,
                               ),
                               onPressed: () {
                                 cubit.toggleWatchlistStatus();
@@ -181,7 +187,6 @@ class MovieDetailsScreen extends StatelessWidget {
                 // Watch button and stats
                 SliverToBoxAdapter(
                   child: Column(
-                    spacing: 16.h,
                     children: [
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16.0.w),
@@ -197,27 +202,31 @@ class MovieDetailsScreen extends StatelessWidget {
                                 ),
                                 child: Text(
                                   "Watch",
-                                  style: Theme.of(context).textTheme.titleMedium,
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.titleMedium,
                                 ),
                               ),
                             ),
                             SizedBox(width: 8.w),
                             Expanded(
-                              child: TorrentButton(torrentUrl:  movie.data?.movie?.torrents?[0].url??""),),
+                              child: TorrentButton(
+                                torrentUrl:
+                                    movie.data?.movie?.torrents?[0].url ?? "",
+                              ),
+                            ),
                           ],
                         ),
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16.0.w),
                         child: Row(
-                          spacing: 4.w,
                           children: [
                             // Likes
                             Expanded(
                               child: StatBox(
                                 icon: "assets/icons/like_ic.png",
                                 value: movie.data?.movie?.likeCount.toString(),
-                                context: context,
                               ),
                             ),
                             // Runtime
@@ -225,7 +234,6 @@ class MovieDetailsScreen extends StatelessWidget {
                               child: StatBox(
                                 icon: "assets/icons/watch_ic.png",
                                 value: movie.data?.movie?.runtime.toString(),
-                                context: context,
                               ),
                             ),
                             // Rating
@@ -233,7 +241,6 @@ class MovieDetailsScreen extends StatelessWidget {
                               child: StatBox(
                                 icon: "assets/icons/star_ic.png",
                                 value: movie.data?.movie?.rating.toString(),
-                                context: context,
                               ),
                             ),
                           ],
@@ -247,7 +254,6 @@ class MovieDetailsScreen extends StatelessWidget {
                 SliverToBoxAdapter(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
-                    spacing: 16.h,
                     children: [
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -349,7 +355,6 @@ class MovieDetailsScreen extends StatelessWidget {
                       padding: EdgeInsets.symmetric(horizontal: 16.0.w),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
-                        spacing: 16.h,
                         children: [
                           Text(
                             "Summary",
@@ -371,7 +376,6 @@ class MovieDetailsScreen extends StatelessWidget {
                 SliverToBoxAdapter(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
-                    spacing: 16.h,
                     children: [
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -383,7 +387,7 @@ class MovieDetailsScreen extends StatelessWidget {
                       ),
                       ListView.separated(
                         shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         padding: EdgeInsets.symmetric(horizontal: 16.w),
                         itemBuilder: (context, index) {
                           return Container(
@@ -397,7 +401,6 @@ class MovieDetailsScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(12.r),
                             ),
                             child: Row(
-                              spacing: 8.w,
                               children: [
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(8.r),
@@ -419,11 +422,9 @@ class MovieDetailsScreen extends StatelessWidget {
                                     },
                                   ),
                                 ),
-
+                                SizedBox(width: 8.w),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     SizedBox(
                                       width:
@@ -467,12 +468,11 @@ class MovieDetailsScreen extends StatelessWidget {
                   ),
                 ),
                 SliverToBoxAdapter(child: SizedBox(height: 16.h)),
-                //genres
+                // Genres
                 SliverToBoxAdapter(
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16.0.w),
                     child: Column(
-                      spacing: 16.h,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Text(
@@ -482,7 +482,7 @@ class MovieDetailsScreen extends StatelessWidget {
                         GridView.builder(
                           shrinkWrap: true,
                           padding: EdgeInsets.zero,
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 3,
@@ -523,13 +523,8 @@ class MovieDetailsScreen extends StatelessWidget {
 class StatBox extends StatelessWidget {
   final String icon;
   final String? value;
-  final BuildContext context;
 
-  const StatBox({
-    required this.icon,
-    required this.value,
-    required this.context,
-  });
+  const StatBox({super.key, required this.icon, required this.value});
 
   @override
   Widget build(BuildContext context) {

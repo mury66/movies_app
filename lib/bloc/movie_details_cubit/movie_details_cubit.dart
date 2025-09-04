@@ -5,44 +5,52 @@ import '../../models/movies_suggestions.dart';
 import '../../repository/home_repo.dart';
 import 'movie_details_states.dart';
 
-class MovieDetailsCubit extends Cubit<MovieDetailsStates>{
+class MovieDetailsCubit extends Cubit<MovieDetailsStates> {
   HomeRepo homeRepo;
   MovieDetailsCubit(this.homeRepo) : super(MovieDetailsInitialState());
+
   bool isSavedToWatchlist = false;
   MovieDetailsModel? movieDetailsResponse;
   SuggestedMoviesModel? similarMoviesResponse;
 
-  void getMovieDetails({required int movieId}) async{
+  Future<void> getMovieDetails({required int movieId}) async {
     emit(MovieDetailsGetLoadingState());
-    try{
+    try {
       movieDetailsResponse = await homeRepo.getMovieDetails(movieId);
-      addToHistory();
       emit(MovieDetailsGetSuccessState());
-    }catch(e){
+    } catch (e) {
       emit(MovieDetailsGetErrorState());
     }
   }
 
-  void getSimilarMovies({required int movieId}) async{
+  Future<void> getSimilarMovies({required int movieId}) async {
     emit(MovieDetailsGetSimilarLoadingState());
-    try{
+    try {
       similarMoviesResponse = await homeRepo.getSimilarMovie(movieId);
       emit(MovieDetailsGetSimilarSuccessState());
-    }catch(e){
+    } catch (e) {
       emit(MovieDetailsGetSimilarErrorState());
     }
   }
 
-  void toggleWatchlistStatus() {
-    isSavedToWatchlist = !isSavedToWatchlist;
-    isSavedToWatchlist ? FirebaseManager.addToWatchLater(movieDetailsResponse?.data?.movie?.id??0) : FirebaseManager.removeFromWatchLater(movieDetailsResponse?.data?.movie?.id??0);
+  Future<void> toggleWatchlistStatus() async {
+    if (movieDetailsResponse?.data?.movie?.id == null) return;
+
+    final movieId = movieDetailsResponse!.data!.movie!.id!;
+    if (isSavedToWatchlist) {
+      await FirebaseManager.removeFromWatchLater(movieId);
+      isSavedToWatchlist = false;
+    } else {
+      await FirebaseManager.addToWatchLater(movieId);
+      isSavedToWatchlist = true;
+    }
+
     emit(MovieDetailsWatchlistToggledState());
   }
 
   void addToHistory() {
-    FirebaseManager.addToHistory(movieDetailsResponse?.data?.movie?.id??5555);
+    if (movieDetailsResponse?.data?.movie?.id == null) return;
+    FirebaseManager.addToHistory(movieDetailsResponse!.data!.movie!.id!);
     emit(MovieDetailsAddToHistoryState());
   }
-
-
 }
