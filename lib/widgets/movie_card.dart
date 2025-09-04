@@ -4,7 +4,7 @@ import '../../models/movies_model.dart';
 
 class MovieCard extends StatelessWidget {
   final Movies movie;
-  final Function(int movieId)? onTap; // <-- ضيفنا callback
+  final Function(int movieId)? onTap;
 
   const MovieCard({super.key, required this.movie, this.onTap});
 
@@ -13,7 +13,7 @@ class MovieCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (onTap != null && movie.id != null) {
-          onTap!(movie.id!); // ينفذ callback لما تدوس
+          onTap!(movie.id!);
         }
       },
       child: Card(

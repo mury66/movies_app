@@ -6,7 +6,7 @@ import 'movie_card.dart';
 class SearchBody extends StatelessWidget {
   final SearchStates state;
   final String query;
-  final Function(int movieId)? onMovieTap; // <--- ضيفنا الباراميتر هنا
+  final Function(int movieId)? onMovieTap;
 
   const SearchBody({
     super.key,
@@ -44,10 +44,7 @@ class SearchBody extends StatelessWidget {
         itemCount: movies.length,
         itemBuilder: (context, index) {
           final movie = movies[index];
-          return MovieCard(
-            movie: movie,
-            onTap: onMovieTap, // <-- ضيفنا callback هنا
-          );
+          return MovieCard(movie: movie, onTap: onMovieTap);
         },
       );
     }
