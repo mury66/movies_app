@@ -17,6 +17,13 @@ class MovieDetailsCubit extends Cubit<MovieDetailsStates> {
     emit(MovieDetailsGetLoadingState());
     try {
       movieDetailsResponse = await homeRepo.getMovieDetails(movieId);
+
+      if (movieDetailsResponse?.data?.movie?.id != null) {
+        isSavedToWatchlist = await FirebaseManager.isInWatchLater(
+          movieDetailsResponse!.data!.movie!.id!,
+        );
+      }
+
       emit(MovieDetailsGetSuccessState());
     } catch (e) {
       emit(MovieDetailsGetErrorState());

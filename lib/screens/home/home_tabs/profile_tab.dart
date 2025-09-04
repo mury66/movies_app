@@ -279,27 +279,24 @@ class ProfileTab extends StatelessWidget {
                                           return const Icon(Icons.error);
                                         }
                                         final movie = snapshot.data!;
-                                        return GestureDetector(
-                                          onTap: () {
+                                        return MovieCard(
+                                          movie: movie.toMoviesModel(),
+                                          onTap: (id) {
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
                                                 builder: (_) =>
                                                     MovieDetailsScreen(
-                                                      movieId: movie.id!,
+                                                      movieId: id,
                                                     ),
                                               ),
                                             );
                                           },
-                                          child: MovieCard(
-                                            movie: movie.toMoviesModel(),
-                                          ),
                                         );
                                       },
                                     );
                                   },
                                 ),
-
                           history.isEmpty
                               ? Center(
                                   child: Image.asset(
@@ -334,21 +331,19 @@ class ProfileTab extends StatelessWidget {
                                           return const Icon(Icons.error);
                                         }
                                         final movie = snapshot.data!;
-                                        return GestureDetector(
-                                          onTap: () {
+                                        return MovieCard(
+                                          movie: movie.toMoviesModel(),
+                                          onTap: (id) {
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
                                                 builder: (_) =>
                                                     MovieDetailsScreen(
-                                                      movieId: movie.id!,
+                                                      movieId: id,
                                                     ),
                                               ),
                                             );
                                           },
-                                          child: MovieCard(
-                                            movie: movie.toMoviesModel(),
-                                          ),
                                         );
                                       },
                                     );

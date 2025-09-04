@@ -7,7 +7,7 @@ class FirebaseManager {
   static final FirebaseAuth _auth = FirebaseAuth.instance;
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // ------------------ Auth Methods ------------------
+  // ------------------ Auth  ------------------
 
   static Future<void> signUp({
     required String email,
@@ -249,6 +249,20 @@ class FirebaseManager {
     await _firestore.collection('users').doc(uid).update({
       "watchLater": FieldValue.arrayRemove([movieId]),
     });
+  }
+
+  static Future<bool> isInWatchLater(int movieId) async {
+    final uid = _auth.currentUser?.uid;
+    if (uid == null) return false;
+
+    final doc = await _firestore.collection('users').doc(uid).get();
+    if (!doc.exists) return false;
+
+    final data = doc.data();
+    final List<dynamic>? watchLater = data?['watchLater'] as List<dynamic>?;
+    if (watchLater == null) return false;
+
+    return watchLater.contains(movieId);
   }
 
   // ------------------ History ------------------
