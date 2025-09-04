@@ -4,14 +4,28 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movies_app/bloc/profile_tab_cubit/profile_cubit.dart';
 import 'package:movies_app/bloc/profile_tab_cubit/profile_states.dart';
+import 'package:movies_app/mapper/movie_details_to_list.dart';
+import 'package:movies_app/models/movie_details.dart';
+import 'package:movies_app/repository/home_repo_imp.dart';
 import 'package:movies_app/screens/home/update_profile/update_profile.dart';
 import 'package:movies_app/screens/Auth/login_screen.dart';
-
+import 'package:movies_app/screens/movie_details/movie_details_screen.dart';
 import '../../../widgets/profile_stat_box.dart';
+import '../../../widgets/movie_card.dart';
 
 class ProfileTab extends StatelessWidget {
   static const routeName = "/profile";
   const ProfileTab({super.key});
+
+  Future<Movie?> _fetchMovie(int id) async {
+    try {
+      final repo = HomeRepoImpelementation();
+      final response = await repo.getMovieDetails(id);
+      return response.data?.movie;
+    } catch (e) {
+      return null;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +50,9 @@ class ProfileTab extends StatelessWidget {
         }
 
         if (state is ProfileInitial || state is ProfileUpdated) {
+          final watchList = state.watchLater;
+          final history = state.history;
+
           return DefaultTabController(
             length: 2,
             child: Scaffold(
@@ -66,14 +83,16 @@ class ProfileTab extends StatelessWidget {
                                         "assets/images/profile.png",
                                       ),
                               ),
-
                               SizedBox(width: 30.w),
-                              const StatProfile(
-                                value: "12",
+                              StatProfile(
+                                value: "${watchList.length}",
                                 label: "Watch List",
                               ),
                               SizedBox(width: 25.w),
-                              const StatProfile(value: "10", label: "History"),
+                              StatProfile(
+                                value: "${history.length}",
+                                label: "History",
+                              ),
                             ],
                           ),
                           SizedBox(height: 8.h),
@@ -226,20 +245,115 @@ class ProfileTab extends StatelessWidget {
                       color: Theme.of(context).scaffoldBackgroundColor,
                       child: TabBarView(
                         children: [
-                          Center(
-                            child: Image.asset(
-                              "assets/images/no_movies.png",
-                              width: 125.w,
-                              height: 125.h,
-                            ),
-                          ),
-                          Center(
-                            child: Image.asset(
-                              "assets/images/no_movies.png",
-                              width: 125.w,
-                              height: 125.h,
-                            ),
-                          ),
+                          watchList.isEmpty
+                              ? Center(
+                                  child: Image.asset(
+                                    "assets/images/no_movies.png",
+                                    width: 125.w,
+                                    height: 125.h,
+                                  ),
+                                )
+                              : GridView.builder(
+                                  padding: EdgeInsets.all(12.w),
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2,
+                                        crossAxisSpacing: 12.w,
+                                        mainAxisSpacing: 12.h,
+                                        childAspectRatio: 0.7,
+                                      ),
+                                  itemCount: watchList.length,
+                                  itemBuilder: (context, index) {
+                                    final movieId = watchList[index];
+                                    return FutureBuilder<Movie?>(
+                                      future: _fetchMovie(movieId),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return const Center(
+                                            child: CircularProgressIndicator(),
+                                          );
+                                        }
+                                        if (!snapshot.hasData ||
+                                            snapshot.data == null) {
+                                          return const Icon(Icons.error);
+                                        }
+                                        final movie = snapshot.data!;
+                                        return GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (_) =>
+                                                    MovieDetailsScreen(
+                                                      movieId: movie.id!,
+                                                    ),
+                                              ),
+                                            );
+                                          },
+                                          child: MovieCard(
+                                            movie: movie.toMoviesModel(),
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
+
+                          history.isEmpty
+                              ? Center(
+                                  child: Image.asset(
+                                    "assets/images/no_movies.png",
+                                    width: 125.w,
+                                    height: 125.h,
+                                  ),
+                                )
+                              : GridView.builder(
+                                  padding: EdgeInsets.all(12.w),
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2,
+                                        crossAxisSpacing: 12.w,
+                                        mainAxisSpacing: 12.h,
+                                        childAspectRatio: 0.7,
+                                      ),
+                                  itemCount: history.length,
+                                  itemBuilder: (context, index) {
+                                    final movieId = history[index];
+                                    return FutureBuilder<Movie?>(
+                                      future: _fetchMovie(movieId),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return const Center(
+                                            child: CircularProgressIndicator(),
+                                          );
+                                        }
+                                        if (!snapshot.hasData ||
+                                            snapshot.data == null) {
+                                          return const Icon(Icons.error);
+                                        }
+                                        final movie = snapshot.data!;
+                                        return GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (_) =>
+                                                    MovieDetailsScreen(
+                                                      movieId: movie.id!,
+                                                    ),
+                                              ),
+                                            );
+                                          },
+                                          child: MovieCard(
+                                            movie: movie.toMoviesModel(),
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
                         ],
                       ),
                     ),

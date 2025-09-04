@@ -6,8 +6,14 @@ import 'movie_card.dart';
 class SearchBody extends StatelessWidget {
   final SearchStates state;
   final String query;
+  final Function(int movieId)? onMovieTap; // <--- ضيفنا الباراميتر هنا
 
-  const SearchBody({super.key, required this.state, required this.query});
+  const SearchBody({
+    super.key,
+    required this.state,
+    required this.query,
+    this.onMovieTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -38,11 +44,13 @@ class SearchBody extends StatelessWidget {
         itemCount: movies.length,
         itemBuilder: (context, index) {
           final movie = movies[index];
-          return MovieCard(movie: movie);
+          return MovieCard(
+            movie: movie,
+            onTap: onMovieTap, // <-- ضيفنا callback هنا
+          );
         },
       );
     }
-
     return const SizedBox.shrink();
   }
 }

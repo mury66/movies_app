@@ -7,6 +7,8 @@ class FirebaseManager {
   static final FirebaseAuth _auth = FirebaseAuth.instance;
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+  // ------------------ Auth Methods ------------------
+
   static Future<void> signUp({
     required String email,
     required String password,
@@ -38,7 +40,6 @@ class FirebaseManager {
             .collection('users')
             .doc(user.uid)
             .set(userdata.toJson());
-
         onSuccess();
       } else {
         onError("User creation failed.");
@@ -104,7 +105,6 @@ class FirebaseManager {
       await googleSignIn.signOut();
 
       final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
-
       if (googleUser == null) {
         onError("Google sign in cancelled.");
         return;
@@ -112,7 +112,6 @@ class FirebaseManager {
 
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
-
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
@@ -138,7 +137,6 @@ class FirebaseManager {
               .doc(user.uid)
               .set(userdata.toJson());
         }
-
         onSuccess();
       } else {
         onError("Google sign in failed.");
@@ -191,7 +189,20 @@ class FirebaseManager {
     return null;
   }
 
-  static Future<void> updateUserData({
+  static Stream<Userdata?> userDataStream() {
+    final user = _auth.currentUser;
+    if (user == null) {
+      return Stream.value(null);
+    }
+    return _firestore.collection('users').doc(user.uid).snapshots().map((doc) {
+      if (doc.exists) {
+        return Userdata.fromJson(doc.data()!);
+      }
+      return null;
+    });
+  }
+
+  static Future<void> updateProfileData({
     required String name,
     required String phone,
     String? avatar,
@@ -216,6 +227,14 @@ class FirebaseManager {
     }
   }
 
+  static Future<void> updateUserData(Map<String, dynamic> data) async {
+    final uid = _auth.currentUser?.uid;
+    if (uid == null) return;
+    await _firestore.collection('users').doc(uid).update(data);
+  }
+
+  // ------------------ Watch Later ------------------
+
   static Future<void> addToWatchLater(int movieId) async {
     final uid = _auth.currentUser?.uid;
     if (uid == null) return;
@@ -231,6 +250,8 @@ class FirebaseManager {
       "watchLater": FieldValue.arrayRemove([movieId]),
     });
   }
+
+  // ------------------ History ------------------
 
   static Future<void> addToHistory(int movieId) async {
     final uid = _auth.currentUser?.uid;

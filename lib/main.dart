@@ -15,7 +15,6 @@ import 'package:movies_app/screens/home/update_profile/update_profile.dart';
 import 'package:movies_app/screens/introduction/intro_screen.dart';
 import 'package:movies_app/screens/introduction/on_boarding_screen.dart';
 import 'package:movies_app/screens/introduction/splash_screen.dart';
-import 'package:movies_app/screens/movie_details/movie_details_screen.dart';
 
 import 'core/cache_helper/cache_helper.dart';
 import 'core/themes/app_theme.dart';
