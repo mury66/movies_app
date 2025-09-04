@@ -50,7 +50,9 @@ class _LoaderWithTimeoutState extends State<LoaderWithTimeout> {
               },
               child: const Text("try again"),
             ),
-          )
+          ),
+          SizedBox(height: 8.h),
+          TextButton(onPressed:(){Navigator.pop(context);}, child: Text("Back"))
         ],
       )
           : const CircularProgressIndicator(),
