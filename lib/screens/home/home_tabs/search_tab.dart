@@ -4,8 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movies_app/bloc/search_tab_cubit/search_cubit.dart';
 import 'package:movies_app/bloc/search_tab_cubit/search_states.dart';
-import 'package:movies_app/widgets/movie_card.dart';
+import 'package:movies_app/repository/home_repo_imp.dart';
+import 'package:movies_app/screens/movie_details/movie_details_screen.dart';
 import 'package:movies_app/widgets/search_body.dart';
+import 'package:movies_app/bloc/movie_details_cubit/movie_details_cubit.dart';
 
 class SearchTab extends StatefulWidget {
   static const routeName = '/search';
@@ -24,6 +26,20 @@ class _SearchTabState extends State<SearchTab> {
     _debounce = Timer(const Duration(milliseconds: 500), () {
       context.read<SearchCubit>().searchMovies(query);
     });
+  }
+
+  void _onMovieTap(int movieId) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => BlocProvider(
+          create: (context) =>
+              MovieDetailsCubit(HomeRepoImpelementation())
+                ..getMovieDetails(movieId: movieId),
+          child: MovieDetailsScreen(movieId: movieId),
+        ),
+      ),
+    );
   }
 
   @override
@@ -63,7 +79,11 @@ class _SearchTabState extends State<SearchTab> {
                   ),
                 ),
                 Expanded(
-                  child: SearchBody(state: state, query: _controller.text),
+                  child: SearchBody(
+                    state: state,
+                    query: _controller.text,
+                    onMovieTap: _onMovieTap,
+                  ),
                 ),
               ],
             ),

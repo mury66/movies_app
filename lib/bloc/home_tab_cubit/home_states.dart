@@ -11,6 +11,4 @@ class HomeGetCategoryMoviesLoadingState extends HomeStates{}
 class HomeGetCategoryMoviesSuccessState extends HomeStates{}
 class HomeGetCategoryMoviesErrorState extends HomeStates{}
 
-
-
 class HomeChangeSelectedMovieState extends HomeStates{}

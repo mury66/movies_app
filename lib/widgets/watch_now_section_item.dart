@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movies_app/bloc/app_cubit/app_cubit.dart';
+import 'package:movies_app/bloc/explore_tab_cubit/explore_cubit.dart';
 import 'package:movies_app/bloc/home_tab_cubit/home_cubit.dart';
 
 import 'movie_list_item.dart';
@@ -8,7 +10,11 @@ import 'movie_list_item.dart';
 class WatchNowSectionItem extends StatelessWidget {
   int sectionIndex;
   HomeCubit cubit;
-  WatchNowSectionItem({super.key, required this.sectionIndex, required this.cubit});
+  WatchNowSectionItem({
+    super.key,
+    required this.sectionIndex,
+    required this.cubit,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +32,18 @@ class WatchNowSectionItem extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Text(
-                "See More ➔",
-                style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontSize: 16.sp,
+              TextButton(
+                onPressed: () {
+                  context.read<AppCubit>().changeTab(2);
+                  context.read<ExploreCubit>().changeCategoryIndex(sectionIndex);
+
+                },
+                child: Text(
+                  "See More ➔",
+                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontSize: 16.sp,
+                  ),
                 ),
               ),
             ],
@@ -49,8 +62,9 @@ class WatchNowSectionItem extends StatelessWidget {
                 child: SizedBox(
                   width: 146.w,
                   height: 220.h,
-                  child: movie == null ? SizedBox.shrink() :
-                  MovieListItem(movie: movie)
+                  child: movie == null
+                      ? SizedBox.shrink()
+                      : MovieListItem(movie: movie),
                 ),
               );
             },
