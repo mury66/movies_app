@@ -10,8 +10,13 @@ class AppCubit extends Cubit<AppStates> {
   AppCubit() : super(AppInitialState());
   List<Widget> screens = [HomeTab(), SearchTab(), ExploreTab(), ProfileTab()];
   int currentTab = 0;
-  void changeTab(int index) {
+  void changeTab(int index,{String genre = ''}) {
     currentTab = index;
     emit(AppChangeTabState());
+  }
+
+  void onSeeMoreTapped(String genre){
+    changeTab(2);
+    emit(HomeSeeMoreTappedState());
   }
 }

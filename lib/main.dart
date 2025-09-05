@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
           ForgetPasswordScreen.routeName: (context) =>
               const ForgetPasswordScreen(),
         },
-        initialRoute: HomeScreen.routeName,
+        initialRoute: LoginScreen.routeName,
       ),
     );
   }
