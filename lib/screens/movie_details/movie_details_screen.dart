@@ -187,6 +187,9 @@ class MovieDetailsScreen extends StatelessWidget {
                 // Watch button and stats
                 SliverToBoxAdapter(
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    spacing: 16.h,
                     children: [
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16.0.w),
@@ -221,8 +224,8 @@ class MovieDetailsScreen extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16.0.w),
                         child: Row(
+                          spacing: 8.w,
                           children: [
-                            // Likes
                             Expanded(
                               child: StatBox(
                                 icon: "assets/icons/like_ic.png",
